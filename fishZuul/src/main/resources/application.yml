@@ -1,0 +1,17 @@
+server:
+  port: 8008
+
+spring:
+  application:
+    name: fishZuul-8008
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+zuul:
+  routes:
+    auth:
+      path: /auth/**
+      url: 10.18.97.209:8048/
+      serviceId: fishNacos-8070
+
