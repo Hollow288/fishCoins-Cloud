@@ -1,6 +1,6 @@
 server:
   # 该服务的端口号
-  port: 9000
+  port: 9100
 eureka:
   client:
     service-url:
@@ -15,7 +15,7 @@ eureka:
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
-    name: fishServiceApi
+    name: fishBaseService-9100
   # 指定用户名和密码,其他服务想注册到Eureka上需要添加用户名和密码进行认证
   security:
     user:

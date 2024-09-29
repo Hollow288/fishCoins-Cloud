@@ -24,6 +24,7 @@
         <module>fishEureka-02</module>
 
         <module>fishServiceApi</module>
+        <module>fishBaseService</module>
 
 
     </modules>
