@@ -1,6 +1,6 @@
 server:
   # 该服务的端口号
-  port: 9100
+  port: 9001
 eureka:
   client:
     service-url:
@@ -10,19 +10,12 @@ eureka:
   instance:
     hostname: localhost
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      fishServiceApi:  # FeignClient 的名称
-        slidingWindowSize: 100
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10000
 
 
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
-    name: fishBaseService-9100
+    name: fishServiceApi
   # 指定用户名和密码,其他服务想注册到Eureka上需要添加用户名和密码进行认证
   security:
     user:

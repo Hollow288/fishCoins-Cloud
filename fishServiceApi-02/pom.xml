@@ -11,10 +11,10 @@
         <artifactId>fishCoins</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>fishBaseService</artifactId>
+    <artifactId>fishServiceApi-02</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fishBaseService</name>
-    <description>fishBaseService</description>
+    <name>fishServiceApi-02</name>
+    <description>fishServiceApi-02</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -30,6 +30,7 @@
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
 <!--    </dependencies>-->
+
     <dependencies>
 
         <dependency>
@@ -37,26 +38,20 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.pond</groupId>
+            <artifactId>fishCoins</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-security</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.github.resilience4j</groupId>-->
-<!--            <artifactId>resilience4j-all</artifactId>-->
-<!--        </dependency>-->
-
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
-<!--        </dependency>-->
-
-
-
     </dependencies>
-
 
     <build>
         <plugins>

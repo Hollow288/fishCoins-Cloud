@@ -15,7 +15,9 @@ public class TestController {
 
     @RequestMapping("/hello/{name}")
     public String index(@PathVariable("name") String name) {
-        return testRemote.hello(name);
+        String returnMsg = testRemote.hello(name);
+        System.out.println(returnMsg);
+        return returnMsg;
     }
 
 }

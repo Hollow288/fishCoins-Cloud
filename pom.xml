@@ -23,7 +23,8 @@
         <module>fishEureka-01</module>
         <module>fishEureka-02</module>
 
-        <module>fishServiceApi</module>
+        <module>fishServiceApi-01</module>
+        <module>fishServiceApi-02</module>
         <module>fishBaseService</module>
 
 
