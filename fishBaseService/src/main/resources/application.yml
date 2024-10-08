@@ -10,13 +10,14 @@ eureka:
   instance:
     hostname: localhost
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      fishServiceApi:  # FeignClient 的名称
-        slidingWindowSize: 100
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10000
+
+resilience4j.circuitbreaker:
+  instances:
+    fishServiceApi:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      failureRateThreshold: 50
+
 
 
 spring:
