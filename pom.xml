@@ -18,7 +18,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>fishZuul</module>
 
         <module>fishEureka-01</module>
         <module>fishEureka-02</module>
