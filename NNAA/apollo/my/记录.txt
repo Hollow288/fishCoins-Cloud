@@ -1,0 +1,6 @@
+安装事项:adminservice和configservice是一个库，portal是一个库，使用不同的Sql
+apollo-adminservice-2.3.0-github、apollo-configservice-2.3.0-github、apollo-portal-2.3.0-github
+启动顺序：apollo-configservice-2.3.0-github ->apollo-adminservice-2.3.0-github -> apollo-portal-2.3.0-github  
+注意事项：configservice的启动端口号为内置Eureka的端口号，也是config库的Eureka的端口号，要一一对应，portal为后台操作网页，它的文件中的要填configservice的启动端口号
+
+和springboot配合的话,需要在配置文件夹下创建一个META_INF文件夹下的app.properties文件,如果想做到热更新,就看ConfigChangeListener类,里面可以写一些自己的逻辑
