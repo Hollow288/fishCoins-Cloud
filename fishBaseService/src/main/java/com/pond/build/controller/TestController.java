@@ -34,6 +34,14 @@ public class TestController {
         return someKey;
     }
 
+    @GetMapping("/say3")
+    public String index3() {
+        Config config = ConfigService.getConfig("fishBaseService"); // 获取默认 application 命名空间
+        String someKey = config.getProperty("spring.security.user.name", "default_value");
+        System.out.println("Config Value: " + someKey);
+        return someKey;
+    }
+
 
     public String indexFallback(String name,Throwable t) {
         return "请求失败了，这是默认的返回结果/(ㄒoㄒ)/~~";

@@ -4,3 +4,42 @@ apollo-adminservice-2.3.0-github、apollo-configservice-2.3.0-github、apollo-po
 注意事项：configservice的启动端口号为内置Eureka的端口号，也是config库的Eureka的端口号，要一一对应，portal为后台操作网页，它的文件中的要填configservice的启动端口号
 
 和springboot配合的话,需要在配置文件夹下创建一个META_INF文件夹下的app.properties文件,如果想做到热更新,就看ConfigChangeListener类,里面可以写一些自己的逻辑
+
+
+创建fishCoins应用->application命名空间为共用，还有其他命名空间放各自的配置
+
+--命名空间----
+application:
+
+# Eureka 客户端配置
+eureka.client.service-url.defaultZone = http://admin:admin@localhost:8900/eureka,http://admin:admin@localhost:8901/eureka
+eureka.instance.hostname = localhost
+
+# 日志配置
+logging.level.com.pond.build = DEBUG
+
+
+--fishBaseService----
+
+
+# Resilience4j 配置
+resilience4j.timelimiter.configs.default.timeout-duration = 10s
+
+resilience4j.circuitbreaker.configs.default.failureRateThreshold = 50
+resilience4j.circuitbreaker.configs.default.slowCallDurationThreshold = 2s
+resilience4j.circuitbreaker.configs.default.slowCallRateThreshold = 30
+resilience4j.circuitbreaker.configs.default.slidingWindowType = TIME_BASED
+resilience4j.circuitbreaker.configs.default.slidingWindowSize = 2
+resilience4j.circuitbreaker.configs.default.minimumNumberOfCalls = 2
+resilience4j.circuitbreaker.configs.default.permittedNumberOfCallsInHalfOpenState = 2
+resilience4j.circuitbreaker.configs.default.waitDurationInOpenState = 5s
+resilience4j.circuitbreaker.configs.default.recordExceptions[0] = java.lang.Exception
+
+resilience4j.circuitbreaker.instances.fishServiceApi.baseConfig = default
+
+# Spring 应用配置
+spring.cloud.inetutils.timeout-seconds = 10
+
+configValue = hoolo
+
+

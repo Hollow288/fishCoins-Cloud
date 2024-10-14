@@ -1,14 +1,14 @@
 server:
   # 该服务的端口号
   port: 9001
-eureka:
-  client:
-    service-url:
-      #此服务注册的地址,需要跟eureka模块中地址一致,只会选其中一个注册,不可用时会选择其他的
-      #defaultZone:  http://${eureka.instance.hostname}:8899/eureka
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
-  instance:
-    hostname: localhost
+#eureka:
+#  client:
+#    service-url:
+#      #此服务注册的地址,需要跟eureka模块中地址一致,只会选其中一个注册,不可用时会选择其他的
+#      #defaultZone:  http://${eureka.instance.hostname}:8899/eureka
+#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
+#  instance:
+#    hostname: localhost
 
 
 

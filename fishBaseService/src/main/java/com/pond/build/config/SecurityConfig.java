@@ -16,6 +16,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/hello/**").permitAll()  // 允许对hello/** 的访问
+                        .requestMatchers("/say3").permitAll()  // 允许对hello/** 的访问
                         .anyRequest().authenticated()  // 其他请求需要认证
 
                 )
