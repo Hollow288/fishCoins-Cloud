@@ -1,19 +1,19 @@
 server:
   #服务端口
   port: 8900
-eureka:
-  client:
-    service-url:
-      # 需要进行消息注册的请求地址，不需要用户名密码验证
-#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
-      #其他服务想注册到Eureka上需要添加用户名和密码进行认证
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
-    #表示当前服务不会注册到服务中心 默认为true。
-    register-with-eureka: true
-    #表示是否从Eureka Server获取注册信息，默认为true。
-    fetch-registry: true
-  instance:
-    hostname: localhost
+#eureka:
+#  client:
+#    service-url:
+#      # 需要进行消息注册的请求地址，不需要用户名密码验证
+##      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+#      #其他服务想注册到Eureka上需要添加用户名和密码进行认证
+#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
+#    #表示当前服务注册到服务中心 默认为true。
+#    register-with-eureka: true
+#    #表示是否从Eureka Server获取注册信息，默认为true。
+#    fetch-registry: true
+#  instance:
+#    hostname: localhost
 
 
 spring:
@@ -25,4 +25,8 @@ spring:
   application:
     name:
       spring-cloud-eureka-8900
+
+apollo:
+  bootstrap:
+    enabled: true
 
