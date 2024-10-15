@@ -1,0 +1,19 @@
+# Resilience4j 配置
+resilience4j.timelimiter.configs.default.timeout-duration = 10s
+
+resilience4j.circuitbreaker.configs.default.failureRateThreshold = 50
+resilience4j.circuitbreaker.configs.default.slowCallDurationThreshold = 2s
+resilience4j.circuitbreaker.configs.default.slowCallRateThreshold = 30
+resilience4j.circuitbreaker.configs.default.slidingWindowType = TIME_BASED
+resilience4j.circuitbreaker.configs.default.slidingWindowSize = 2
+resilience4j.circuitbreaker.configs.default.minimumNumberOfCalls = 2
+resilience4j.circuitbreaker.configs.default.permittedNumberOfCallsInHalfOpenState = 2
+resilience4j.circuitbreaker.configs.default.waitDurationInOpenState = 5s
+resilience4j.circuitbreaker.configs.default.recordExceptions[0] = java.lang.Exception
+
+resilience4j.circuitbreaker.instances.fishServiceApi.baseConfig = default
+
+# Spring 应用配置
+spring.cloud.inetutils.timeout-seconds = 10
+
+configValue = hoolo

@@ -1,0 +1,2 @@
+# Spring 应用配置
+spring.cloud.inetutils.timeout-seconds = 10
