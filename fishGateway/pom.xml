@@ -11,33 +11,21 @@
         <artifactId>fishCoins</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>fishServiceApi-02</artifactId>
+    <artifactId>fishGateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fishServiceApi-02</name>
-    <description>fishServiceApi-02</description>
+    <name>fishGateway</name>
+    <description>fishGateway</description>
     <properties>
         <java.version>17</java.version>
     </properties>
 
-
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
 
 
         <dependency>
@@ -51,9 +39,14 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
 
 
     </dependencies>
+
 
     <build>
         <plugins>

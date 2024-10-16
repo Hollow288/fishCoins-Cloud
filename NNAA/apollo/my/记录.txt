@@ -9,7 +9,8 @@ apollo-adminservice-2.3.0-github、apollo-configservice-2.3.0-github、apollo-po
 创建fishCoins应用->application命名空间为共用，还有其他命名空间放各自的配置
 
 --命名空间----
-application:
+
+--application----
 
 # Eureka 客户端配置
 eureka.client.service-url.defaultZone = http://admin:admin@localhost:8900/eureka,http://admin:admin@localhost:8901/eureka
@@ -17,6 +18,33 @@ eureka.instance.hostname = localhost
 
 # 日志配置
 logging.level.com.pond.build = DEBUG
+
+
+#------  gateway配置：为什么放在自定义的命名空间中不生效呢？
+
+#表示是否从Eureka Server获取注册信息，默认为true
+eureka.client.fetch-registry = true
+
+
+# 开启网关服务发现和自动路由
+spring.cloud.gateway.discovery.locator.enabled = true
+spring.cloud.gateway.discovery.locator.lower-case-service-id = true
+
+# 配置第一个路由：转发到 fishBaseService
+spring.cloud.gateway.routes[0].id = route-to-fishBaseService
+spring.cloud.gateway.routes[0].uri = lb://fishBaseService-9100
+spring.cloud.gateway.routes[0].predicates[0] = Path=/base/**
+spring.cloud.gateway.routes[0].filters[0] = StripPrefix=1
+
+# 配置第二个路由：转发到 fishServiceApi
+spring.cloud.gateway.routes[1].id = route-to-fishServiceApi
+spring.cloud.gateway.routes[1].uri = lb://fishServiceApi
+spring.cloud.gateway.routes[1].predicates[0] = Path=/api/**
+spring.cloud.gateway.routes[1].filters[0] = StripPrefix=1
+
+
+#------
+
 
 
 --fishBaseService----
@@ -41,5 +69,25 @@ resilience4j.circuitbreaker.instances.fishServiceApi.baseConfig = default
 spring.cloud.inetutils.timeout-seconds = 10
 
 configValue = hoolo
+
+
+--fishServiceApi----
+
+
+# Spring 应用配置
+spring.cloud.inetutils.timeout-seconds = 10
+
+
+
+--fishEureka----
+
+
+#表示当前服务注册到服务中心 默认为true
+eureka.client.register-with-eureka = true
+#表示是否从Eureka Server获取注册信息，默认为true
+eureka.client.fetch-registry = true
+
+
+
 
 

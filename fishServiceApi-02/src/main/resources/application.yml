@@ -21,9 +21,9 @@ spring:
     user:
       name: admin
       password: admin
-  cloud:
-    inetutils:
-      timeout-seconds: 10
+#  cloud:
+#    inetutils:
+#      timeout-seconds: 10
 
 
 apollo:

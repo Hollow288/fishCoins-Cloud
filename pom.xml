@@ -22,6 +22,8 @@
         <module>fishEureka-01</module>
         <module>fishEureka-02</module>
 
+        <module>fishGateway</module>
+
         <module>fishServiceApi-01</module>
         <module>fishServiceApi-02</module>
         <module>fishBaseService</module>
@@ -35,35 +37,8 @@
 <!--        这里的也有版本要求，用低了会有问题-->
         <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
-
-
-<!--        &lt;!&ndash;实现Eureka认证,保证Eureka的安全性&ndash;&gt;-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.ctrip.framework.apollo</groupId>
-            <artifactId>apollo-client</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
-
 
 
 
