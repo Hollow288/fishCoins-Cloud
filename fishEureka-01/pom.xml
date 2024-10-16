@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.ctrip.framework.apollo</groupId>
             <artifactId>apollo-client</artifactId>
-            <version>2.2.0</version>
+            <version>${apollo-client.version}</version>
         </dependency>
 
         <!-- eureka服务端的依赖-->

@@ -24,6 +24,8 @@
 
         <module>fishGateway</module>
 
+        <module>fishAuthService</module>
+
         <module>fishServiceApi-01</module>
         <module>fishServiceApi-02</module>
         <module>fishBaseService</module>
@@ -36,6 +38,7 @@
         <java.version>17</java.version>
 <!--        这里的也有版本要求，用低了会有问题-->
         <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <apollo-client.version>2.2.0</apollo-client.version>
     </properties>
 
     <dependencies>
