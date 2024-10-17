@@ -78,6 +78,11 @@
     </dependencies>
 
 
+
+
+
+
+
     <build>
         <plugins>
             <plugin>
@@ -85,6 +90,28 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+
+    <resources>
+        <resource>
+            <directory>src/main/webapp</directory>
+            <targetPath>META-INF/resources</targetPath>
+            <includes>
+                <include>**/**</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
+        <!-- 这个是加载xml配置 -->
+        <!-- <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.xml</include>
+            </includes>
+        </resource> -->
+    </resources>
     </build>
 
 </project>
