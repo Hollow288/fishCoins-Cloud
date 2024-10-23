@@ -53,6 +53,8 @@ public class AuthServiceImpl implements AuthService {
 
             //Todo 这里先不引入角色、权限相关的代码 仅仅用github的ID对比
 
+            // Todo 这里为什么很多配置不放在application命名空间中就没生效？？？
+
             redisUtil.set("access_token:"+ "1",JSONObject.toJSONString("12345612"), JwtUtil.JWT_ACCESS_TTL/1000);
             redisUtil.set("refresh_token:"+ "2", JSONObject.toJSONString("12345612"),JwtUtil.JWT_REFRESH_TTL/1000);
 
