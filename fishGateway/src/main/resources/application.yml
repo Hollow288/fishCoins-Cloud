@@ -39,9 +39,9 @@ spring:
 #    user:
 #      name: admin
 #      password: admin
-#logging:
-#  level:
-#    com.pond.build: DEBUG
+logging:
+  level:
+    root: debug
 #
 #
 

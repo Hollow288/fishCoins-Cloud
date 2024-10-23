@@ -18,6 +18,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>fish-common</module>
 
         <module>fishEureka-01</module>
         <module>fishEureka-02</module>
@@ -39,6 +40,8 @@
 <!--        这里的也有版本要求，用低了会有问题-->
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <apollo-client.version>2.2.0</apollo-client.version>
+        <hutool-all.version>5.8.26</hutool-all.version>
+        <fastjson2.version>2.0.53</fastjson2.version>
     </properties>
 
     <dependencies>
