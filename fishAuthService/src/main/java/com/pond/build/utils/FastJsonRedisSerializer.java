@@ -1,4 +1,4 @@
-package com.pond.build.config.utils;
+package com.pond.build.utils;
 
 import com.alibaba.fastjson2.JSON;
 import org.springframework.data.redis.serializer.RedisSerializer;

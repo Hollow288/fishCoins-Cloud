@@ -1,12 +1,10 @@
-package com.pond.build.config.controller;
+package com.pond.build.controller;
 
 
-import com.ctc.wstx.util.StringUtil;
-import com.pond.build.config.service.AuthService;
+import com.pond.build.service.AuthService;
 import com.pond.build.model.CommonResult;
 import com.pond.build.model.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

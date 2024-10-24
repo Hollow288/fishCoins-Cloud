@@ -50,7 +50,7 @@ public class GatewayPropertiesRefresher implements ApplicationContextAware,Appli
         this.publisher = applicationEventPublisher;
     }
 
-    @ApolloConfigChangeListener(interestedKeyPrefixes = "spring.cloud.gateway.")
+    @ApolloConfigChangeListener(value = {"fishGateway"},interestedKeyPrefixes = "spring.cloud.gateway.")
     public void onChange(ConfigChangeEvent changeEvent) {
         refreshGatewayProperties(changeEvent);
     }

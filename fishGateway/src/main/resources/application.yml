@@ -50,4 +50,5 @@ apollo:
     enabled: true
     eagerLoad:
           enabled: true
+    namespaces: fishGateway,application
 

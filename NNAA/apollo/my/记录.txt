@@ -6,6 +6,13 @@ apollo-adminservice-2.3.0-github、apollo-configservice-2.3.0-github、apollo-po
 和springboot配合的话,需要在配置文件夹下创建一个META_INF文件夹下的app.properties文件,如果想做到热更新,就看ConfigChangeListener类,里面可以写一些自己的逻辑
 
 
+这里为什么很多配置不放在application命名空间中就没生效？？？
+之前的配置：引入的是apollo-client依赖,然后在app.properties中配置了命名空间spring.config.import=apollo://application, apollo://fishAuthService,这是错误的
+应该是在application.yml中配置apollo.bootstrap.namespaces
+
+
+
+
 创建fishCoins应用->application命名空间为共用，还有其他命名空间放各自的配置
 
 --命名空间----

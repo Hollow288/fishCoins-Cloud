@@ -29,3 +29,6 @@ spring:
 apollo:
   bootstrap:
     enabled: true
+    eagerLoad:
+      enabled: true
+    namespaces: fishServiceApi,application
