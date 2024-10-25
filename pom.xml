@@ -42,6 +42,11 @@
         <apollo-client.version>2.2.0</apollo-client.version>
         <hutool-all.version>5.8.26</hutool-all.version>
         <fastjson2.version>2.0.53</fastjson2.version>
+        <jjwt-api.version>0.12.6</jjwt-api.version>
+        <jjwt-impl.version>0.12.6</jjwt-impl.version>
+        <jjwt-jackson.version>0.12.6</jjwt-jackson.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <mysql-connector.version>8.3.0</mysql-connector.version>
     </properties>
 
     <dependencies>
