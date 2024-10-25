@@ -1,23 +1,45 @@
 package com.pond.build.service.impl;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.pond.build.mapper.UserMapper;
+import com.pond.build.model.LoginUser;
+import com.pond.build.model.User;
 import com.pond.build.service.AuthService;
 import com.pond.build.utils.JwtUtil;
 import com.pond.build.utils.RedisUtil;
 import com.pond.build.model.CommonResult;
-import com.pond.build.model.TokenResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.*;
+
+import  com.pond.build.enums.HttpStatusCode;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Value("${oauth2.github.clientId:}")
     private String clientId;
@@ -26,10 +48,10 @@ public class AuthServiceImpl implements AuthService {
     private String clientSecret;
 
     @Override
-    public CommonResult<TokenResponse> loginByGithub(Map<String, Object> params){
+    public CommonResult loginByGithub(Map<String, Object> params){
 
         if(params.get("code") == null || params.get("code").equals("")){
-            return new CommonResult<>(400,"请求参数错误");
+            return new CommonResult<>(HttpStatusCode.FORBIDDEN_ROLE_ERR.getCode(),HttpStatusCode.FORBIDDEN_ROLE_ERR.getCnMessage());
         }
 //        Config config = ConfigService.getConfig("fishAuthService"); // 获取默认 application 命名空间
 //        String clientId = config.getProperty("oauth2.github.clientId", null);
@@ -37,34 +59,100 @@ public class AuthServiceImpl implements AuthService {
         System.out.println(clientId);
         if(StringUtils.isNotBlank(clientId) && StringUtils.isNotBlank(clientSecret)){
 
-//            Map<String, Object > paramMap = new HashMap<>();
-//            paramMap.put("client_id",clientId);
-//            paramMap.put("client_secret",clientSecret);
-//            paramMap.put("code",params.get("code"));
-//            paramMap.put("accept","json");
-//
-//            String result = HttpUtil.post("https://github.com/login/oauth/access_token",paramMap);
-//            String token = result.split("&")[0].split("=")[1];
-//            // 获取用户信息
-//            String finalResult = HttpRequest.get("https://api.github.com/user")
-//                    .header("Authorization","token "+token)
-//                    .header("X-GitHub-Api-Version", "2022-11-28")
-//                    .execute().body();
-//            System.out.println(finalResult);
-//            //userName
-//            JSONObject githubUserInfo = JSON.parseObject(finalResult);
+            Map<String, Object > paramMap = new HashMap<>();
+            paramMap.put("client_id",clientId);
+            paramMap.put("client_secret",clientSecret);
+            paramMap.put("code",params.get("code"));
+            paramMap.put("accept","json");
 
+            String result = HttpUtil.post("https://github.com/login/oauth/access_token",paramMap);
+            String token = result.split("&")[0].split("=")[1];
+            // 获取用户信息
+            String finalResult = HttpRequest.get("https://api.github.com/user")
+                    .header("Authorization","token "+token)
+                    .header("X-GitHub-Api-Version", "2022-11-28")
+                    .execute().body();
+            System.out.println(finalResult);
+            //userName
+            JSONObject githubUserInfo = JSON.parseObject(finalResult);
+            String id = String.valueOf(githubUserInfo.get("id"));
             //Todo 这里先不引入角色、权限相关的代码 仅仅用github的ID对比
 
+            QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+            userQueryWrapper.eq("github_id",id);
+            User users = userMapper.selectOne(userQueryWrapper);
+
+            if (Objects.isNull(users)){
+//                throw new RuntimeException("用户名不存在！");
+                return new CommonResult<>(HttpStatusCode.NOT_FOUND_USERNAME.getCode(),HttpStatusCode.NOT_FOUND_USERNAME.getCnMessage());
+            }
+            String userId = users.getUserId().toString();
+            String accessToken = jwtUtil.createJWT(userId, JwtUtil.JWT_ACCESS_TTL);
+            String refreshToken = jwtUtil.createJWT(userId, JwtUtil.JWT_REFRESH_TTL);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("access_token",accessToken);
+            map.put("refresh_token",refreshToken);
+            //Todo 前端需要的账号信息
+            map.put("user",null);
+
+            LoginUser loginUser = new LoginUser();
+            loginUser.setUser(users);
+
+            //Todo 往loginUser添加权限信息
+            loginUser.setPermissions(new ArrayList<String>());
+
+            redisUtil.set("access_token:"+ userId,JSONObject.toJSONString(loginUser), JwtUtil.JWT_ACCESS_TTL/1000);
+            redisUtil.set("refresh_token:"+ userId, JSONObject.toJSONString(loginUser),JwtUtil.JWT_REFRESH_TTL/1000);
 
 
-            redisUtil.set("access_token:"+ "1",JSONObject.toJSONString("12345612"), JwtUtil.JWT_ACCESS_TTL/1000);
-            redisUtil.set("refresh_token:"+ "2", JSONObject.toJSONString("12345612"),JwtUtil.JWT_REFRESH_TTL/1000);
-
-
-            return null;
+            return new CommonResult<>(HttpStatusCode.OK.getCode(),"登录成功",map);
         }else{
-            return new CommonResult<>(500,"服务器内部错误");
+            return new CommonResult<>(HttpStatusCode.REQUEST_SERVER_ERROR.getCode(),HttpStatusCode.REQUEST_SERVER_ERROR.getCnMessage());
         }
+    }
+
+    @Override
+    public CommonResult loginBypassWord(Map<String, Object> params) {
+
+        if(params.get("userName") == null || params.get("userName").equals("") || params.get("passWord") == null || params.get("passWord").equals("")){
+            return new CommonResult<>(HttpStatusCode.USERNAME_PASSWORD_ERR.getCode(),HttpStatusCode.USERNAME_PASSWORD_ERR.getCnMessage());
+        }
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(params.get("userName"),params.get("passWord"));
+
+        Authentication authenticate = null;
+        try {
+            authenticate = authenticationManager.authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            return new CommonResult<>(HttpStatusCode.USERNAME_PASSWORD_ERR.getCode(),HttpStatusCode.USERNAME_PASSWORD_ERR.getCnMessage());
+        }
+
+
+        if (Objects.isNull(authenticate)){
+//            throw new RuntimeException("登录失败");
+            return new CommonResult<>(HttpStatusCode.USERNAME_PASSWORD_ERR.getCode(),HttpStatusCode.USERNAME_PASSWORD_ERR.getCnMessage());
+        }
+
+
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+
+        String userid = loginUser.getUser().getUserId().toString();
+
+//        String jwt = JwtUtil.createJWT(userid);
+        String accessToken = jwtUtil.createJWT(userid, JwtUtil.JWT_ACCESS_TTL);
+        String refreshToken = jwtUtil.createJWT(userid, JwtUtil.JWT_REFRESH_TTL);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("access_token",accessToken);
+        map.put("refresh_token",refreshToken);
+        //Todo 前端需要的账号信息
+        map.put("user",null);
+
+
+        redisUtil.set("access_token:"+ userid,JSONObject.toJSONString(loginUser),JwtUtil.JWT_ACCESS_TTL/1000);
+        redisUtil.set("refresh_token:"+ userid,JSONObject.toJSONString(loginUser),JwtUtil.JWT_REFRESH_TTL/1000);
+
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"登录成功",map);
     }
 }

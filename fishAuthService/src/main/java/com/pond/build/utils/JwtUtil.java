@@ -5,6 +5,8 @@ import com.ctrip.framework.apollo.ConfigService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,6 +17,7 @@ import java.util.UUID;
 /**
  * JWT工具类
  */
+@Component
 public class JwtUtil {
 
 
@@ -25,9 +28,11 @@ public class JwtUtil {
     public static final Long JWT_REFRESH_TTL = 60 * 60 * 8 *1000L;// 60 * 60 * 8 * 1000  八个小时
 //    public static final Long JWT_REFRESH_TTL = 60 * 60 * 1 *1000L;// 60 * 60 * 8 * 1000  一个小时
     //设置秘钥明文
-    public static final String JWT_KEY = "thisIsFishInThePondAndWorkAndOFishInThePondAndWork";
 
-    public static String getUUID(){
+    @Value(value = "${jwt.key:}")
+    private  String jwtKey;
+
+    public  String getUUID(){
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         return token;
     }
@@ -37,7 +42,7 @@ public class JwtUtil {
      * @param subject token中要存放的数据（json格式）
      * @return
      */
-    public static String createJWT(String subject) {
+    public  String createJWT(String subject) {
         JwtBuilder builder = getJwtBuilder(subject, null, getUUID());// 设置过期时间
         return builder.compact();
     }
@@ -48,7 +53,7 @@ public class JwtUtil {
      * @param ttlMillis token超时时间
      * @return
      */
-    public static String createJWT(String subject, Long ttlMillis) {
+    public String createJWT(String subject, Long ttlMillis) {
         JwtBuilder builder = getJwtBuilder(subject, ttlMillis, getUUID());// 设置过期时间
         return builder.compact();
     }
@@ -61,12 +66,12 @@ public class JwtUtil {
      * @param ttlMillis
      * @return
      */
-    public static String createJWT(String id, String subject, Long ttlMillis) {
+    public String createJWT(String id, String subject, Long ttlMillis) {
         JwtBuilder builder = getJwtBuilder(subject, ttlMillis, id);// 设置过期时间
         return builder.compact();
     }
 
-    private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
+    private  JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
 //        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         SecretKey secretKey = generalKey();
         long nowMillis = System.currentTimeMillis();
@@ -87,40 +92,38 @@ public class JwtUtil {
 
 
 
-    public  void main(String[] args) throws Exception {
-        //jwt加密
-        String jwt = createJWT("12345612");
-
-        //jwt解密
-        Claims claims = parseJWT(jwt);
-        String subject = claims.getSubject();
-
-        String accessToken = JwtUtil.createJWT("1", JwtUtil.JWT_ACCESS_TTL);
-        String refreshToken = JwtUtil.createJWT("2", JwtUtil.JWT_REFRESH_TTL);
-
-
-        System.out.println(subject);
-        System.out.println(jwt);
-        System.out.println(accessToken);
-        System.out.println(refreshToken);
-
-
-        System.out.println("=========================");
-        Claims parseJAccessToken = parseJWT(accessToken);
-        System.out.println(parseJAccessToken.getSubject());
-
-
-    }
+//    public   void main(String[] args) throws Exception {
+//        //jwt加密
+//        String jwt = createJWT("12345612");
+//
+//        //jwt解密
+//        Claims claims = parseJWT(jwt);
+//        String subject = claims.getSubject();
+//
+//        String accessToken = JwtUtil.createJWT("1", JwtUtil.JWT_ACCESS_TTL);
+//        String refreshToken = JwtUtil.createJWT("2", JwtUtil.JWT_REFRESH_TTL);
+//
+//
+//        System.out.println(subject);
+//        System.out.println(jwt);
+//        System.out.println(accessToken);
+//        System.out.println(refreshToken);
+//
+//
+//        System.out.println("=========================");
+//        Claims parseJAccessToken = parseJWT(accessToken);
+//        System.out.println(parseJAccessToken.getSubject());
+//
+//
+//    }
 
     /**
      * 生成加密后的秘钥 secretKey
      * @return
      */
-    public static SecretKey generalKey() {
-        Config config = ConfigService.getConfig("fishAuthService"); // 获取默认 application 命名空间
-        String key = config.getProperty("jwt.key", JWT_KEY);
+    public  SecretKey generalKey() {
 
-        byte[] encodedKey = Base64.getDecoder().decode(key);
+        byte[] encodedKey = Base64.getDecoder().decode(jwtKey);
 //        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");
     }
@@ -132,7 +135,7 @@ public class JwtUtil {
      * @return
      * @throws Exception
      */
-    public static Claims parseJWT(String jwt) throws Exception {
+    public  Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -149,7 +152,7 @@ public class JwtUtil {
      * @param token
      * @return true 过期 false 未过期
      */
-    public static Boolean isTokenExpired(String token) throws Exception {
+    public  Boolean isTokenExpired(String token) throws Exception {
         return getExpirationDate(token).before(new Date());
     }
 
@@ -159,7 +162,7 @@ public class JwtUtil {
      * @param token
      * @return
      */
-    public static Date getExpirationDate(String token) throws Exception {
+    public  Date getExpirationDate(String token) throws Exception {
         return parseJWT(token).getExpiration();
 
     }
