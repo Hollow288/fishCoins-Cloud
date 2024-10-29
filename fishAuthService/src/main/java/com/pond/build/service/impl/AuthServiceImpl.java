@@ -1,5 +1,6 @@
 package com.pond.build.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
@@ -7,6 +8,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pond.build.mapper.UserMapper;
 import com.pond.build.model.LoginUser;
+import com.pond.build.model.Response.UserResponse;
 import com.pond.build.model.User;
 import com.pond.build.service.AuthService;
 import com.pond.build.utils.JwtUtil;
@@ -93,12 +95,10 @@ public class AuthServiceImpl implements AuthService {
             Map<String, Object> map = new HashMap<>();
             map.put("access_token",accessToken);
             map.put("refresh_token",refreshToken);
-            //Todo 前端需要的账号信息
-            map.put("user",null);
 
             LoginUser loginUser = new LoginUser();
             loginUser.setUser(users);
-
+            map.put("user",this.makeUserResponse(loginUser.getUser()));
             //Todo 往loginUser添加权限信息
             loginUser.setPermissions(new ArrayList<String>());
 
@@ -146,8 +146,9 @@ public class AuthServiceImpl implements AuthService {
         Map<String, Object> map = new HashMap<>();
         map.put("access_token",accessToken);
         map.put("refresh_token",refreshToken);
-        //Todo 前端需要的账号信息
-        map.put("user",null);
+        //
+        map.put("user",this.makeUserResponse(loginUser.getUser()));
+
 
 
         redisUtil.set("access_token:"+ userid,JSONObject.toJSONString(loginUser),JwtUtil.JWT_ACCESS_TTL/1000);
@@ -155,4 +156,14 @@ public class AuthServiceImpl implements AuthService {
 
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"登录成功",map);
     }
+
+
+
+    private UserResponse makeUserResponse(User user){
+        UserResponse userResponse = new UserResponse();
+        BeanUtil.copyProperties(user, userResponse);
+        userResponse.setAvatarUrl(userResponse.getAvatarUrl());
+        return userResponse;
+    }
+
 }
