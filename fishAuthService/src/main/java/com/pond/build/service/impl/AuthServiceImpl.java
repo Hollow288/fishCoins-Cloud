@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pond.build.mapper.UserMapper;
 import com.pond.build.model.LoginUser;
 import com.pond.build.model.Response.UserResponse;
+import com.pond.build.model.TokenUser;
 import com.pond.build.model.User;
 import com.pond.build.service.AuthService;
 import com.pond.build.utils.JwtUtil;
@@ -89,8 +90,13 @@ public class AuthServiceImpl implements AuthService {
                 return new CommonResult<>(HttpStatusCode.NOT_FOUND_USERNAME.getCode(),HttpStatusCode.NOT_FOUND_USERNAME.getCnMessage());
             }
             String userId = users.getUserId().toString();
-            String accessToken = jwtUtil.createJWT(userId, JwtUtil.JWT_ACCESS_TTL);
-            String refreshToken = jwtUtil.createJWT(userId, JwtUtil.JWT_REFRESH_TTL);
+            TokenUser tokenUser = new TokenUser();
+            tokenUser.setUserId(users.getUserId());
+            //Todo 往tokenUser添加权限信息
+            tokenUser.setPermissions(new ArrayList<String>(List.of("ROLE_ADMIN")));
+
+            String accessToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_ACCESS_TTL);
+            String refreshToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_REFRESH_TTL);
 
             Map<String, Object> map = new HashMap<>();
             map.put("access_token",accessToken);
@@ -100,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
             loginUser.setUser(users);
             map.put("user",this.makeUserResponse(loginUser.getUser()));
             //Todo 往loginUser添加权限信息
-            loginUser.setPermissions(new ArrayList<String>());
+            loginUser.setPermissions(new ArrayList<String>(List.of("ROLE_ADMIN")));
 
             redisUtil.set("access_token:"+ userId,JSONObject.toJSONString(loginUser), JwtUtil.JWT_ACCESS_TTL/1000);
             redisUtil.set("refresh_token:"+ userId, JSONObject.toJSONString(loginUser),JwtUtil.JWT_REFRESH_TTL/1000);
@@ -138,10 +144,14 @@ public class AuthServiceImpl implements AuthService {
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
 
         String userid = loginUser.getUser().getUserId().toString();
+        TokenUser tokenUser = new TokenUser();
+        tokenUser.setUserId(loginUser.getUser().getUserId());
+        //Todo 往tokenUser添加权限信息
+        tokenUser.setPermissions(new ArrayList<String>(List.of("ROLE_ADMIN")));
 
 //        String jwt = JwtUtil.createJWT(userid);
-        String accessToken = jwtUtil.createJWT(userid, JwtUtil.JWT_ACCESS_TTL);
-        String refreshToken = jwtUtil.createJWT(userid, JwtUtil.JWT_REFRESH_TTL);
+        String accessToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_ACCESS_TTL);
+        String refreshToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_REFRESH_TTL);
 
         Map<String, Object> map = new HashMap<>();
         map.put("access_token",accessToken);

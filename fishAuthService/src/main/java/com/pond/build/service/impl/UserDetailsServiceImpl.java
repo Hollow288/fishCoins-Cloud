@@ -46,7 +46,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<String> resultList = new ArrayList<>();
 
 //        resultList.addAll(permsList);
-//        resultList.addAll(rolesList);
+        //Todo 角色相关
+        resultList.addAll(List.of("ROLE_ADMIN"));
 
         //把数据封装成UserDetails返回
         return new LoginUser(user,resultList);

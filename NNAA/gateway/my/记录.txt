@@ -1,0 +1,25 @@
+通过继承AbstractGatewayFilterFactory实现的自定义过滤器(JwtAuthenticationGatewayFilterFactory)，在配置中指定的名称是JwtAuthentication
+
+在官方文档中说了：
+
+原文：
+Naming Custom Filters And References In Configuration
+Custom filters class names should end in GatewayFilterFactory.
+
+For example, to reference a filter named Something in configuration files, the filter must be in a class named SomethingGatewayFilterFactory.
+
+It is possible to create a gateway filter named without the GatewayFilterFactory suffix, such as class AnotherThing. This filter could be referenced as AnotherThing in configuration files. This is not a supported naming convention and this syntax may be removed in future releases. Please update the filter name to be compliant.
+
+
+翻译：
+自定义过滤器的类名应该以 GatewayFilterFactory 结尾。
+
+例如，要在配置文件中引用名为 Something 的过滤器，该过滤器的类名必须为 SomethingGatewayFilterFactory。
+
+可以创建一个不以 GatewayFilterFactory 结尾的网关过滤器，例如类名为 AnotherThing。这个过滤器可以在配置文件中被引用为 AnotherThing。但是这种命名约定并不被支持，并且这种语法在未来的版本中可能会被移除。请将过滤器的名称更新为符合要求的格式。
+
+
+
+------
+
+现在打算在gateway做token的统一校验,从token中解析出权限添加在请求头传给下一级api,同时在请求头添加时间戳和密文(和api服务约定好加密方式)提高安全性

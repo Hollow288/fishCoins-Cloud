@@ -35,6 +35,11 @@ server:
 #
 #
 #
+
+
+
+
+
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
