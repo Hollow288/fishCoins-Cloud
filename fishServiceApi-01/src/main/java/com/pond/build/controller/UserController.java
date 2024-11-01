@@ -11,15 +11,15 @@ public class UserController {
 
 
     @GetMapping("/hello/{name}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String test(@PathVariable(value = "name") String name){
 
-        try {
-            Thread.sleep(4000); // 暂停 4 秒
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // 恢复中断状态
-            throw new RuntimeException("线程被中断", e);
-        }
+//        try {
+//            Thread.sleep(4000); // 暂停 4 秒
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt(); // 恢复中断状态
+//            throw new RuntimeException("线程被中断", e);
+//        }
 
         if(name.equals("namee")){
             throw new RuntimeException("id不能为负数");
