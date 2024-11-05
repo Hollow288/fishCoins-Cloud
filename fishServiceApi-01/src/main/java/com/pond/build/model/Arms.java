@@ -1,8 +1,11 @@
 package com.pond.build.model;
 
-import java.math.BigDecimal;
+import com.pond.build.model.basic.ItemsBasic;
 
-public class ArmsBasic {
+import java.math.BigDecimal;
+import java.util.List;
+
+public class Arms {
 
     /**
      * 武器ID
@@ -68,6 +71,38 @@ public class ArmsBasic {
      * 武器暴击-满级
      */
     private BigDecimal armsCriticalStrikeEnd;
+    /**
+     * 武器特质
+     */
+    private List<String> armsCharacteristics;
+    /**
+     * 武器特质
+     */
+    private List<ItemsBasic> armsTraits;
+    /**
+     * 武器专属
+     */
+    private List<ItemsBasic> armsExclusives;
+    /**
+     * 武器星级
+     */
+    private List<ItemsBasic> armsStarRatings;
+    /**
+     * 武器普攻
+     */
+    private List<ItemsBasic> armsPrimaryAttacks;
+    /**
+     * 武器闪避攻击
+     */
+    private List<ItemsBasic> armsDodgeAttacks;
+    /**
+     * 武器技能攻击
+     */
+    private List<ItemsBasic> armsSkillAttacks;
+    /**
+     * 武器联携攻击
+     */
+    private List<ItemsBasic> armsCooperationAttacks;
 
 
 

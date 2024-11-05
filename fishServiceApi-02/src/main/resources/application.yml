@@ -1,30 +1,11 @@
 server:
   # 该服务的端口号
   port: 9001
-#eureka:
-#  client:
-#    service-url:
-#      #此服务注册的地址,需要跟eureka模块中地址一致,只会选其中一个注册,不可用时会选择其他的
-#      #defaultZone:  http://${eureka.instance.hostname}:8899/eureka
-#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
-#  instance:
-#    hostname: localhost
-
-
 
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
     name: fishServiceApi
-  # 指定用户名和密码,其他服务想注册到Eureka上需要添加用户名和密码进行认证
-  security:
-    user:
-      name: admin
-      password: admin
-#  cloud:
-#    inetutils:
-#      timeout-seconds: 10
-
 
 apollo:
   bootstrap:

@@ -1,49 +1,11 @@
 server:
   # 该服务的端口号
   port: 8800
-#eureka:
-#  client:
-#    service-url:
-#      #此服务注册的地址,需要跟eureka模块中地址一致,只会选其中一个注册,不可用时会选择其他的
-#      #defaultZone:  http://${eureka.instance.hostname}:8899/eureka
-#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8900/eureka,http://${spring.security.user.name}:${spring.security.user.password}@localhost:8901/eureka
-#  instance:
-#    hostname: localhost
-
 
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
     name: fishGateway
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: route-to-fishBaseService
-#          uri: lb://fishBaseService-9100
-#          predicates:
-#            - Path=/base/**
-#          filters:
-#            - StripPrefix=1  # 去掉一级路径前缀（即 /base/）
-#        - id: route-to-fishAuthService
-#          uri: lb://fishAuthService
-#          predicates:
-#            - Path=/auth/**
-#          filters:
-#            - StripPrefix=1  # 去掉一级路径前缀（即 /base/）
-#      discovery:
-#        locator:
-#          enabled: true  # 开启服务发现功能
-#          lower-case-service-id: true  # 强制将服务 ID 转换为小写
-
-#  security:
-#    user:
-#      name: admin
-#      password: admin
-logging:
-  level:
-    root: debug
-#
-#
 
 apollo:
   bootstrap:
