@@ -1,16 +1,24 @@
-package com.pond.build.model;
+package com.pond.build.model.arms;
 
+import com.baomidou.mybatisplus.annotation.*;
 import com.pond.build.model.basic.ItemsBasic;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
-public class Arms {
+@Data
+@TableName("arms")
+public class Arms  implements Serializable {
 
+    private static final long serialVersionUID = -17497182915612205L;
     /**
      * 武器ID
      */
-    private String armsId;
+    @TableId(type = IdType.AUTO)
+    private Integer armsId;
     /**
      * 武器名称
      */
@@ -19,10 +27,6 @@ public class Arms {
      * 武器稀有度
      */
     private String armsRarity;
-    /**
-     * 武器轮次
-     */
-    private String armsDate;
     /**
      * 武器定位
      */
@@ -72,37 +76,72 @@ public class Arms {
      */
     private BigDecimal armsCriticalStrikeEnd;
     /**
-     * 武器特质
+     * 武器缩略图地址
      */
-    private List<String> armsCharacteristics;
+    private String armsThumbnailUrl;
+    /**
+     * 武器描述
+     */
+    private String armsDescription;
     /**
      * 武器特质
      */
-    private List<ItemsBasic> armsTraits;
+    @TableField(exist = false)
+    private List<ArmsCharacteristics> armsCharacteristics;
     /**
      * 武器专属
      */
-    private List<ItemsBasic> armsExclusives;
+    @TableField(exist = false)
+    private List<ArmsExclusives> armsExclusives;
     /**
      * 武器星级
      */
-    private List<ItemsBasic> armsStarRatings;
+    @TableField(exist = false)
+    private List<ArmsStarRatings> armsStarRatings;
     /**
      * 武器普攻
      */
-    private List<ItemsBasic> armsPrimaryAttacks;
+    @TableField(exist = false)
+    private List<ArmsPrimaryAttacks> armsPrimaryAttacks;
     /**
      * 武器闪避攻击
      */
-    private List<ItemsBasic> armsDodgeAttacks;
+    @TableField(exist = false)
+    private List<ArmsDodgeAttacks> armsDodgeAttacks;
     /**
      * 武器技能攻击
      */
-    private List<ItemsBasic> armsSkillAttacks;
+    @TableField(exist = false)
+    private List<ArmsSkillAttacks> armsSkillAttacks;
     /**
      * 武器联携攻击
      */
-    private List<ItemsBasic> armsCooperationAttacks;
+    @TableField(exist = false)
+    private List<ArmsCooperationAttacks> armsCooperationAttacks;
+
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date createTime;
+    /**
+     * 更新人
+     */
+    private String updateBy;
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.UPDATE)
+    private Date updateTime;
+    /**
+     * 删除标志（0代表存在 1代表删除）
+     */
+    private String delFlag;
 
 
 

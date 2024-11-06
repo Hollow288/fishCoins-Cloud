@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pond.build.mapper.arms.ArmsMapper">
+
+<!--
+注释掉的部分为会造成N+1问题的写法:
+
+假设主表有 100 条数据,然后它有10张子表,而每个子表有 2 条对应的数据,并且存在 N+1 查询问题,查询的次数通常会因为每次查询都会查询主表和子表之间的关系,从而增加查询次数。
+
+N+1 问题的查询次数：
+第一次查询：查询主表数据。即执行一次查询，查询所有 100 条主表记录。
+
+查询次数：1次（查询主表）。
+后续的查询：每查询一条主表记录时，会分别查询每个子表的数据。这会导致 10 个子表，每个子表为每条主表记录执行一次查询。
+
+对于每条主表记录，子表会被查询 10 次（每个子表一次），因此总共会有 100 条主表记录 × 10 个子表查询 = 1000 次子表查询。
+
+总查询次数：
+1 (主表查询) + 1000 (子表查询) = 1001 次 查询。
+
+
+使用联表查询:
+
+联表查询时，只需要查询一次，所有的数据（主表和子表）都会被一次性获取。查询的复杂度会增加，但查询次数依然是 1 次。
+
+-->
+
+<!--    <resultMap type="com.pond.build.model.arms.Arms" id="ArmsMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="armsName" column="arms_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="armsRarity" column="arms_rarity" jdbcType="VARCHAR"/>-->
+<!--        <result property="armsType" column="arms_type" jdbcType="VARCHAR"/>-->
+<!--        <result property="armsAttribute" column="arms_attribute" jdbcType="VARCHAR"/>-->
+<!--        <result property="armsOverwhelmed" column="arms_overwhelmed" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsChargingEnergy" column="arms_charging_energy" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsAggressivityStart" column="arms_aggressivity_start" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsBloodvolumeStart" column="arms_bloodvolume_start" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsDefensecapabilityStart" column="arms_defensecapability_start" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsCriticalstrikeStart" column="arms_criticalstrike_start" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsAggressivityEnd" column="arms_aggressivity_end" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsBloodvolumeEnd" column="arms_bloodvolume_end" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsDefensecapabilityEnd" column="arms_defensecapability_end" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsCriticalstrikeEnd" column="arms_criticalstrike_end" jdbcType="NUMERIC"/>-->
+<!--        <result property="armsThumbnailUrl" column="arms_thumbnail_url" jdbcType="VARCHAR"/>-->
+<!--        <result property="armsDescription" column="arms_description" jdbcType="VARCHAR"/>-->
+<!--        <result property="createBy" column="create_by" jdbcType="INTEGER"/>-->
+<!--        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>-->
+<!--        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>-->
+<!--        <collection property="armsCharacteristics" ofType="com.pond.build.model.arms.ArmsCharacteristics" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsCharacteristicsById">-->
+<!--        </collection>-->
+<!--        <collection property="armsCooperationAttacks" ofType="com.pond.build.model.arms.ArmsCooperationAttacks" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsCooperationAttacksById">-->
+<!--        </collection>-->
+<!--        <collection property="armsDodgeAttacks" ofType="com.pond.build.model.arms.ArmsDodgeAttacks" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsDodgeAttacksById">-->
+<!--        </collection>-->
+<!--        <collection property="armsExclusives" ofType="com.pond.build.model.arms.ArmsExclusives" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsExclusivesById">-->
+<!--        </collection>-->
+<!--        <collection property="armsPrimaryAttacks" ofType="com.pond.build.model.arms.ArmsPrimaryAttacks" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsPrimaryAttacksById">-->
+<!--        </collection>-->
+<!--        <collection property="armsSkillAttacks" ofType="com.pond.build.model.arms.ArmsSkillAttacks" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsSkillAttacksById">-->
+<!--        </collection>-->
+<!--        <collection property="armsStarRatings" ofType="com.pond.build.model.arms.ArmsStarRatings" column="arms_id"-->
+<!--                    select="com.pond.build.mapper.arms.ArmsMapper.findArmsStarRatingsById">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsCharacteristics" id="ArmsCharacteristicsMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsCooperationAttacks" id="ArmsCooperationAttacksMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsDodgeAttacks" id="ArmsDodgeAttacksMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsExclusives" id="ArmsExclusivesMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsPrimaryAttacks" id="ArmsPrimaryAttacksMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsSkillAttacks" id="ArmsSkillAttacksMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+
+<!--    <resultMap type="com.pond.build.model.arms.ArmsStarRatings" id="ArmsStarRatingsMap">-->
+<!--        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>-->
+<!--        <result property="itemsName" column="items_name" jdbcType="VARCHAR"/>-->
+<!--        <result property="itemsDescribe" column="items_describe" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+
+<!--    <select id="getAllArmsInfoByPage" resultMap="ArmsMap">-->
+<!--        SELECT * FROM arms-->
+<!--    </select>-->
+
+
+<!--    <select id="findArmsCharacteristicsById" resultMap="ArmsCharacteristicsMap">-->
+<!--        select * from arms_characteristics ac where ac.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsCooperationAttacksById" resultMap="ArmsCooperationAttacksMap">-->
+<!--        select * from arms_cooperation_attacks aca where aca.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsDodgeAttacksById" resultMap="ArmsDodgeAttacksMap">-->
+<!--        select * from arms_dodge_attacks ada where ada.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsExclusivesById" resultMap="ArmsExclusivesMap">-->
+<!--        select * from arms_exclusives ae where ae.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsPrimaryAttacksById" resultMap="ArmsPrimaryAttacksMap">-->
+<!--        select * from arms_primary_attacks apa where apa.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsSkillAttacksById" resultMap="ArmsSkillAttacksMap">-->
+<!--        select * from arms_skill_attacks aka where aka.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+<!--    <select id="findArmsStarRatingsById" resultMap="ArmsStarRatingsMap">-->
+<!--        select * from arms_star_ratings asr where asr.arms_id = #{arms_id}-->
+<!--    </select>-->
+
+
+    <resultMap id="ArmsMap" type="com.pond.build.model.arms.Arms">
+        <!-- 主表字段映射 -->
+        <result property="armsId" column="arms_id" jdbcType="INTEGER"/>
+        <result property="armsName" column="arms_name" jdbcType="VARCHAR"/>
+        <result property="armsRarity" column="arms_rarity" jdbcType="VARCHAR"/>
+        <result property="armsType" column="arms_type" jdbcType="VARCHAR"/>
+        <result property="armsAttribute" column="arms_attribute" jdbcType="VARCHAR"/>
+        <result property="armsOverwhelmed" column="arms_overwhelmed" jdbcType="NUMERIC"/>
+        <result property="armsChargingEnergy" column="arms_charging_energy" jdbcType="NUMERIC"/>
+        <result property="armsAggressivityStart" column="arms_aggressivity_start" jdbcType="NUMERIC"/>
+        <result property="armsBloodvolumeStart" column="arms_bloodvolume_start" jdbcType="NUMERIC"/>
+        <result property="armsDefensecapabilityStart" column="arms_defensecapability_start" jdbcType="NUMERIC"/>
+        <result property="armsCriticalstrikeStart" column="arms_criticalstrike_start" jdbcType="NUMERIC"/>
+        <result property="armsAggressivityEnd" column="arms_aggressivity_end" jdbcType="NUMERIC"/>
+        <result property="armsBloodvolumeEnd" column="arms_bloodvolume_end" jdbcType="NUMERIC"/>
+        <result property="armsDefensecapabilityEnd" column="arms_defensecapability_end" jdbcType="NUMERIC"/>
+        <result property="armsCriticalstrikeEnd" column="arms_criticalstrike_end" jdbcType="NUMERIC"/>
+        <result property="armsThumbnailUrl" column="arms_thumbnail_url" jdbcType="VARCHAR"/>
+        <result property="armsDescription" column="arms_description" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+        <!-- 其他 arms 字段... -->
+
+        <!-- 子表 arms_characteristics 映射 -->
+        <collection property="armsCharacteristics" ofType="com.pond.build.model.arms.ArmsCharacteristics">
+            <result property="characteristicsId" column="characteristics_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="characteristics_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="characteristics_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="characteristics_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <!-- 子表 arms_cooperation_attacks 映射 -->
+        <collection property="armsCooperationAttacks" ofType="com.pond.build.model.arms.ArmsCooperationAttacks">
+            <result property="cooperationAttacksId" column="cooperation_attacks_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="cooperationattacks_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="cooperationattacks_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="cooperationattacks_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+
+        <collection property="armsDodgeAttacks" ofType="com.pond.build.model.arms.ArmsDodgeAttacks">
+            <result property="dodgeAttacksId" column="dodge_attacks_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="dodgeattacks_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="dodgeattacks_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="dodgeattacks_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <collection property="armsExclusives" ofType="com.pond.build.model.arms.ArmsExclusives">
+            <result property="exclusivesId" column="exclusives_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="exclusives_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="exclusives_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="exclusives_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <collection property="armsPrimaryAttacks" ofType="com.pond.build.model.arms.ArmsPrimaryAttacks">
+            <result property="primaryAttacksId" column="primary_attacks_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="primaryattacks_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="primaryattacks_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="primaryattacks_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <collection property="armsSkillAttacks" ofType="com.pond.build.model.arms.ArmsSkillAttacks">
+            <result property="skillAttacksId" column="skill_attacks_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="skillattacks_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="skillattacks_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="skillattacks_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <collection property="armsStarRatings" ofType="com.pond.build.model.arms.ArmsStarRatings">
+            <result property="starRatingsId" column="star_ratings_id" jdbcType="INTEGER"/>
+            <result property="armsId" column="starratings_arms_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="starratings_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="starratings_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+
+        <!-- 子表 arms_dodge_attacks 映射，依此类推... -->
+        <!-- 添加更多 <collection> 标签用于其他子表 -->
+    </resultMap>
+
+
+
+
+
+
+    <select id="getAllArmsInfoByPage" resultMap="ArmsMap">
+        SELECT a.*,
+               ac.characteristics_id,
+               ac.arms_id        as characteristics_arms_id,
+               ac.items_name     as characteristics_items_name,
+               ac.items_describe as characteristics_items_describe,
+               aca.cooperation_attacks_id,
+               aca.arms_id       as cooperationattacks_arms_id,
+               aca.items_name    as cooperationattacks_items_name,
+               aca.items_describe as cooperationattacks_items_describe,
+               ada.dodge_attacks_id,
+               ada.arms_id       as dodgeattacks_arms_id,
+               ada.items_name    as dodgeattacks_items_name,
+               ada.items_describe as dodgeattacks_items_describe,
+               ae.exclusives_id,
+               ae.arms_id        as exclusives_arms_id,
+               ae.items_name     as exclusives_items_name,
+               ae.items_describe as exclusives_items_describe,
+               apa.primary_attacks_id,
+               apa.arms_id       as primaryattacks_arms_id,
+               apa.items_name    as primaryattacks_items_name,
+               apa.items_describe as primaryattacks_items_describe,
+               aka.skill_attacks_id,
+               aka.arms_id       as skillattacks_arms_id,
+               aka.items_name    as skillattacks_items_name,
+               aka.items_describe as skillattacks_items_describe,
+               asr.star_ratings_id,
+               asr.arms_id       as starratings_arms_id,
+               asr.items_name    as starratings_items_name,
+               asr.items_describe as starratings_items_describe
+        FROM arms a
+                 LEFT JOIN arms_characteristics ac ON a.arms_id = ac.arms_id
+                 LEFT JOIN arms_cooperation_attacks aca ON a.arms_id = aca.arms_id
+                 LEFT JOIN arms_dodge_attacks ada ON a.arms_id = ada.arms_id
+                 LEFT JOIN arms_exclusives ae ON a.arms_id = ae.arms_id
+                 LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
+                 LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
+                 LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
+        where a.del_flag='0'
+        <if test="searchList != null and searchList.size() > 0">
+            and a.arms_attribute in
+            <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                #{typeCode}
+            </foreach>
+        </if>
+        ORDER BY a.arms_id
+        <!-- 分页条件 -->
+        LIMIT #{offset}, #{limit}
+
+    </select>
+
+
+
+
+
+</mapper>
+

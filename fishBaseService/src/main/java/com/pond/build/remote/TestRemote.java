@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name= "fishServiceApi",fallback = TestRemoteFallBackService.class)
+@FeignClient(name= "fishServiceApi", contextId = "testServiceClient",fallback = TestRemoteFallBackService.class)
 public interface TestRemote {
 
     @GetMapping("/hello/{name}")
