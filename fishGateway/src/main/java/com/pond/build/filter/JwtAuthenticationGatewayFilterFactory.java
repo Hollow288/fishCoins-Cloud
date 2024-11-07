@@ -61,11 +61,11 @@ public class JwtAuthenticationGatewayFilterFactory
                             .build();
                 } catch (Exception e) {
                     // 如果解析失败，则返回 401 未授权
-                    return sendCustomResponse(exchange, HttpStatus.OK, HttpStatusCode.FORBIDDEN_ROLE_ERR.getCnMessage());
+                    return sendCustomResponse(exchange, HttpStatus.OK, HttpStatusCode.ACCESS_TOKEN_ERR.getCnMessage());
                 }
             } else {
                 // 如果没有提供有效的 JWT，则返回 401
-                return sendCustomResponse(exchange, HttpStatus.OK, HttpStatusCode.FORBIDDEN_ROLE_ERR.getCnMessage());
+                return sendCustomResponse(exchange, HttpStatus.OK, HttpStatusCode.ACCESS_TOKEN_ERR.getCnMessage());
             }
             return chain.filter(exchange);
         };
@@ -93,7 +93,7 @@ public class JwtAuthenticationGatewayFilterFactory
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
         // 使用 FastJSON 创建 JSON 响应体
-        String jsonResponse = JSON.toJSONString(new CommonResult<>(HttpStatusCode.FORBIDDEN_ROLE_ERR.getCode(),message));
+        String jsonResponse = JSON.toJSONString(new CommonResult<>(HttpStatusCode.ACCESS_TOKEN_ERR.getCode(),message));
 
         DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
         DataBuffer buffer = bufferFactory.wrap(jsonResponse.getBytes(StandardCharsets.UTF_8));

@@ -26,12 +26,19 @@ public class ArmsController {
     }
 
 
-    @GetMapping("/all-arms")
+    @GetMapping("/page-arms")
     @PreAuthorize("hasRole('ADMIN')")
-    public CommonResult<List<Arms>> allArms(@RequestParam(value = "page") Integer page,
-                                            @RequestParam(value = "pageSize") Integer pageSize,
-                                            @RequestParam(value = "attributeType", defaultValue = "") String attributeType){
-        return armsService.allArms(page,pageSize,attributeType);
+    public CommonResult<Map<String,Object>> armsByPage(@RequestParam(value = "page") Integer page,
+                                            @RequestParam(value = "page_size") Integer pageSize,
+                                            @RequestParam(value = "attribute_type", defaultValue = "") String attributeType){
+        return armsService.armsByPage(page,pageSize,attributeType);
+    }
+
+
+    @GetMapping("/id-arms/{arms_id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public CommonResult<Arms> armsById(@PathVariable(value = "arms_id") Integer armsId){
+        return armsService.armsById(armsId);
     }
 
 }

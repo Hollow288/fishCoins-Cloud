@@ -7,6 +7,7 @@ import com.pond.build.model.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -34,5 +35,12 @@ public class AuthController {
 
 
         return new CommonResult<>(HttpStatusCode.UNKNOWN_LOGIN_TYPE.getCode(),HttpStatusCode.UNKNOWN_LOGIN_TYPE.getCnMessage());
+    }
+
+
+    @PostMapping("/refresh")
+//    @PreAuthorize("permitAll")
+    public CommonResult refreshToken(@RequestParam("token") String refreshToken){
+        return authService.refreshToken(refreshToken);
     }
 }

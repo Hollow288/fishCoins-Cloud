@@ -22,12 +22,19 @@ public class ArmsController {
     }
 
 
-    @GetMapping("/all-arms")
+    @GetMapping("/page-arms")
     @PreAuthorize("hasRole('ADMIN')")
-    public Map<String,Object> allArms(@RequestParam(value = "page") Integer page,
-                                      @RequestParam(value = "pageSize") Integer pageSize,
-                                      @RequestParam(value = "attributeType", defaultValue = "") String attributeType){
-        return armsRemote.allArms(page,pageSize,attributeType);
+    public Map<String,Object> armsByPage(@RequestParam(value = "page") Integer page,
+                                      @RequestParam(value = "page_size") Integer pageSize,
+                                      @RequestParam(value = "attribute_type", defaultValue = "") String attributeType){
+        return armsRemote.armsByPage(page,pageSize,attributeType);
+    }
+
+
+    @GetMapping("/id-arms/{arms_id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> armsById(@PathVariable(value = "arms_id") Integer armsId){
+        return armsRemote.armsById(armsId);
     }
 
 }

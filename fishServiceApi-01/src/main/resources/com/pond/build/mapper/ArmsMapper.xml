@@ -160,13 +160,13 @@ N+1 问题的查询次数：
         <result property="armsOverwhelmed" column="arms_overwhelmed" jdbcType="NUMERIC"/>
         <result property="armsChargingEnergy" column="arms_charging_energy" jdbcType="NUMERIC"/>
         <result property="armsAggressivityStart" column="arms_aggressivity_start" jdbcType="NUMERIC"/>
-        <result property="armsBloodvolumeStart" column="arms_bloodvolume_start" jdbcType="NUMERIC"/>
-        <result property="armsDefensecapabilityStart" column="arms_defensecapability_start" jdbcType="NUMERIC"/>
-        <result property="armsCriticalstrikeStart" column="arms_criticalstrike_start" jdbcType="NUMERIC"/>
+        <result property="armsBloodVolumeStart" column="arms_blood_volume_start" jdbcType="NUMERIC"/>
+        <result property="armsDefenseCapabilityStart" column="arms_defense_capability_start" jdbcType="NUMERIC"/>
+        <result property="armsCriticalStrikeStart" column="arms_critical_strike_start" jdbcType="NUMERIC"/>
         <result property="armsAggressivityEnd" column="arms_aggressivity_end" jdbcType="NUMERIC"/>
-        <result property="armsBloodvolumeEnd" column="arms_bloodvolume_end" jdbcType="NUMERIC"/>
-        <result property="armsDefensecapabilityEnd" column="arms_defensecapability_end" jdbcType="NUMERIC"/>
-        <result property="armsCriticalstrikeEnd" column="arms_criticalstrike_end" jdbcType="NUMERIC"/>
+        <result property="armsBloodVolumeEnd" column="arms_blood_volume_end" jdbcType="NUMERIC"/>
+        <result property="armsDefenseCapabilityEnd" column="arms_defense_capability_end" jdbcType="NUMERIC"/>
+        <result property="armsCriticalStrikeEnd" column="arms_critical_strike_end" jdbcType="NUMERIC"/>
         <result property="armsThumbnailUrl" column="arms_thumbnail_url" jdbcType="VARCHAR"/>
         <result property="armsDescription" column="arms_description" jdbcType="VARCHAR"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
@@ -233,62 +233,110 @@ N+1 问题的查询次数：
     </resultMap>
 
 
+        <select id="getCountArms" resultType="java.lang.Integer">
+            SELECT count(*) FROM arms a WHERE a.del_flag = '0'
+            <if test="searchList != null and searchList.size() > 0">
+                and a.arms_attribute in
+                <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                    #{typeCode}
+                </foreach>
+            </if>
+        </select>
 
 
 
 
-    <select id="getAllArmsInfoByPage" resultMap="ArmsMap">
+    <select id="getArmsInfoByPage" resultMap="ArmsMap">
         SELECT a.*,
-               ac.characteristics_id,
-               ac.arms_id        as characteristics_arms_id,
-               ac.items_name     as characteristics_items_name,
-               ac.items_describe as characteristics_items_describe,
-               aca.cooperation_attacks_id,
-               aca.arms_id       as cooperationattacks_arms_id,
-               aca.items_name    as cooperationattacks_items_name,
-               aca.items_describe as cooperationattacks_items_describe,
-               ada.dodge_attacks_id,
-               ada.arms_id       as dodgeattacks_arms_id,
-               ada.items_name    as dodgeattacks_items_name,
-               ada.items_describe as dodgeattacks_items_describe,
-               ae.exclusives_id,
-               ae.arms_id        as exclusives_arms_id,
-               ae.items_name     as exclusives_items_name,
-               ae.items_describe as exclusives_items_describe,
-               apa.primary_attacks_id,
-               apa.arms_id       as primaryattacks_arms_id,
-               apa.items_name    as primaryattacks_items_name,
-               apa.items_describe as primaryattacks_items_describe,
-               aka.skill_attacks_id,
-               aka.arms_id       as skillattacks_arms_id,
-               aka.items_name    as skillattacks_items_name,
-               aka.items_describe as skillattacks_items_describe,
-               asr.star_ratings_id,
-               asr.arms_id       as starratings_arms_id,
-               asr.items_name    as starratings_items_name,
-               asr.items_describe as starratings_items_describe
-        FROM arms a
-                 LEFT JOIN arms_characteristics ac ON a.arms_id = ac.arms_id
-                 LEFT JOIN arms_cooperation_attacks aca ON a.arms_id = aca.arms_id
-                 LEFT JOIN arms_dodge_attacks ada ON a.arms_id = ada.arms_id
-                 LEFT JOIN arms_exclusives ae ON a.arms_id = ae.arms_id
-                 LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
-                 LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
-                 LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
-        where a.del_flag='0'
+        ac.characteristics_id,
+        ac.arms_id as characteristics_arms_id,
+        ac.items_name as characteristics_items_name,
+        ac.items_describe as characteristics_items_describe,
+        aca.cooperation_attacks_id,
+        aca.arms_id as cooperationattacks_arms_id,
+        aca.items_name as cooperationattacks_items_name,
+        aca.items_describe as cooperationattacks_items_describe,
+        ada.dodge_attacks_id,
+        ada.arms_id as dodgeattacks_arms_id,
+        ada.items_name as dodgeattacks_items_name,
+        ada.items_describe as dodgeattacks_items_describe,
+        ae.exclusives_id,
+        ae.arms_id as exclusives_arms_id,
+        ae.items_name as exclusives_items_name,
+        ae.items_describe as exclusives_items_describe,
+        apa.primary_attacks_id,
+        apa.arms_id as primaryattacks_arms_id,
+        apa.items_name as primaryattacks_items_name,
+        apa.items_describe as primaryattacks_items_describe,
+        aka.skill_attacks_id,
+        aka.arms_id as skillattacks_arms_id,
+        aka.items_name as skillattacks_items_name,
+        aka.items_describe as skillattacks_items_describe,
+        asr.star_ratings_id,
+        asr.arms_id as starratings_arms_id,
+        asr.items_name as starratings_items_name,
+        asr.items_describe as starratings_items_describe
+        FROM (SELECT * FROM arms a
+        WHERE del_flag = '0'
         <if test="searchList != null and searchList.size() > 0">
             and a.arms_attribute in
             <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
                 #{typeCode}
             </foreach>
         </if>
-        ORDER BY a.arms_id
-        <!-- 分页条件 -->
-        LIMIT #{offset}, #{limit}
+        ORDER BY arms_id
+        LIMIT #{limit} OFFSET #{offset}) a
+        LEFT JOIN arms_characteristics ac ON a.arms_id = ac.arms_id
+        LEFT JOIN arms_cooperation_attacks aca ON a.arms_id = aca.arms_id
+        LEFT JOIN arms_dodge_attacks ada ON a.arms_id = ada.arms_id
+        LEFT JOIN arms_exclusives ae ON a.arms_id = ae.arms_id
+        LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
+        LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
+        LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
 
     </select>
 
 
+    <select id="getArmsInfoById" resultMap="ArmsMap">
+        SELECT a.*,
+        ac.characteristics_id,
+        ac.arms_id as characteristics_arms_id,
+        ac.items_name as characteristics_items_name,
+        ac.items_describe as characteristics_items_describe,
+        aca.cooperation_attacks_id,
+        aca.arms_id as cooperationattacks_arms_id,
+        aca.items_name as cooperationattacks_items_name,
+        aca.items_describe as cooperationattacks_items_describe,
+        ada.dodge_attacks_id,
+        ada.arms_id as dodgeattacks_arms_id,
+        ada.items_name as dodgeattacks_items_name,
+        ada.items_describe as dodgeattacks_items_describe,
+        ae.exclusives_id,
+        ae.arms_id as exclusives_arms_id,
+        ae.items_name as exclusives_items_name,
+        ae.items_describe as exclusives_items_describe,
+        apa.primary_attacks_id,
+        apa.arms_id as primaryattacks_arms_id,
+        apa.items_name as primaryattacks_items_name,
+        apa.items_describe as primaryattacks_items_describe,
+        aka.skill_attacks_id,
+        aka.arms_id as skillattacks_arms_id,
+        aka.items_name as skillattacks_items_name,
+        aka.items_describe as skillattacks_items_describe,
+        asr.star_ratings_id,
+        asr.arms_id as starratings_arms_id,
+        asr.items_name as starratings_items_name,
+        asr.items_describe as starratings_items_describe
+        FROM (SELECT * FROM arms
+        WHERE del_flag = '0' and arms_id = #{armsId}) a
+        LEFT JOIN arms_characteristics ac ON a.arms_id = ac.arms_id
+        LEFT JOIN arms_cooperation_attacks aca ON a.arms_id = aca.arms_id
+        LEFT JOIN arms_dodge_attacks ada ON a.arms_id = ada.arms_id
+        LEFT JOIN arms_exclusives ae ON a.arms_id = ae.arms_id
+        LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
+        LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
+        LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
+    </select>
 
 
 

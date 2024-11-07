@@ -15,7 +15,12 @@ public class ArmsRemoteFallBackService implements ArmsRemote {
     }
 
     @Override
-    public Map<String, Object> allArms( Integer page, Integer pageSize, String attributeType) {
+    public Map<String, Object> armsByPage( Integer page, Integer pageSize, String attributeType) {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> armsById(Integer armsId) {
         return null;
     }
 }

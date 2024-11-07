@@ -5,6 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pond.build.mapper.UserMapper;
 import com.pond.build.model.LoginUser;
@@ -15,6 +16,7 @@ import com.pond.build.service.AuthService;
 import com.pond.build.utils.JwtUtil;
 import com.pond.build.utils.RedisUtil;
 import com.pond.build.model.CommonResult;
+import io.jsonwebtoken.Claims;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -165,6 +167,62 @@ public class AuthServiceImpl implements AuthService {
         redisUtil.set("refresh_token:"+ userid,JSONObject.toJSONString(loginUser),JwtUtil.JWT_REFRESH_TTL/1000);
 
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"登录成功",map);
+    }
+
+
+    @Override
+    public CommonResult refreshToken(String refreshToken) {
+
+        try {
+
+            //检查refreshToken是否过期
+            Boolean tokenExpired = jwtUtil.isTokenExpired(refreshToken);
+            if(tokenExpired){
+                return new CommonResult<>(HttpStatusCode.REFRESH_TOKEN_ERR.getCode(),HttpStatusCode.REFRESH_TOKEN_ERR.getCnMessage());
+            }
+            //检查refreshToken是否在黑名单
+            if(redisUtil.isBlackToken(refreshToken)){
+                return new CommonResult<>(HttpStatusCode.REFRESH_TOKEN_ERR.getCode(),HttpStatusCode.REFRESH_TOKEN_ERR.getCnMessage());
+            }
+
+            Claims claims = jwtUtil.parseJWT(refreshToken);
+            TokenUser thisTokenUser = JSONObject.parseObject(claims.getSubject(), TokenUser.class);
+            //检查refreshToken是否在redis中
+            if(!redisUtil.hasKey("refresh_token:"+ thisTokenUser.getUserId())){
+                return new CommonResult<>(HttpStatusCode.REFRESH_TOKEN_ERR.getCode(),HttpStatusCode.REFRESH_TOKEN_ERR.getCnMessage(),null);
+            }
+
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getUserId,thisTokenUser.getUserId());
+            User user = userMapper.selectOne(queryWrapper);
+
+            TokenUser tokenUser = new TokenUser();
+            tokenUser.setUserId(user.getUserId());
+            //Todo 往tokenUser添加权限信息
+            tokenUser.setPermissions(new ArrayList<String>(List.of("ROLE_ADMIN")));
+
+            //重置AccessToken和RefreshToken过期时间(秒)
+            redisUtil.set("access_token:"+ user.getUserId(),JSONObject.toJSONString(tokenUser),JwtUtil.JWT_ACCESS_TTL/1000);
+            redisUtil.set("refresh_token:"+ user.getUserId(),JSONObject.toJSONString(tokenUser),JwtUtil.JWT_REFRESH_TTL/1000);
+
+            //生成新的AccessToken和RefreshToken
+            Map<String, String> map = new HashMap<>();
+            String newAccessToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_ACCESS_TTL);
+            String newRefreshToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_REFRESH_TTL);
+            //将refreshToken加入黑名单
+            redisUtil.tokenAddToBlack(refreshToken);
+            //将newAccessToken和newRefreshToken返回给前端
+            map.put("access_token",newAccessToken);
+            map.put("refresh_token",newRefreshToken);
+
+            return new CommonResult<>(HttpStatusCode.OK.getCode(),"刷新成功",map);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+//            throw new RuntimeException(e);
+            return new CommonResult<>(HttpStatusCode.REFRESH_TOKEN_ERR.getCode(),HttpStatusCode.REFRESH_TOKEN_ERR.getCnMessage());
+        }
+
     }
 
 

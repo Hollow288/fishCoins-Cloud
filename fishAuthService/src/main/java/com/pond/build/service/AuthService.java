@@ -8,4 +8,6 @@ public interface AuthService {
     CommonResult loginByGithub(Map<String, Object> params);
 
     CommonResult loginBypassWord(Map<String, Object> params);
+
+    CommonResult refreshToken(String refreshToken);
 }

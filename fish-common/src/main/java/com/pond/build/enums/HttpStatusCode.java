@@ -65,7 +65,8 @@ public enum HttpStatusCode {
     NOT_FOUND_USERNAME(39999, "Not Found Username", "没有找到对应账号信息"),
     USERNAME_PASSWORD_ERR(39999, "Incorrect Username Or Password", "用户名或者密码错误"),
     UNKNOWN_LOGIN_TYPE(40000, "UNKNOWN LOGIN TYPE", "未知的登录方式"),
-    REFRESH_TOKEN_ERR(40001, "REFRESH TOKEN ERR", "获取刷新token时错误"),
+    ACCESS_TOKEN_ERR(40001, "REFRESH TOKEN ERR", "验证请求token时错误"),
+    REFRESH_TOKEN_ERR(40011, "REFRESH TOKEN ERR", "获取刷新token时错误"),
     FORBIDDEN_ROLE_ERR(40003, "Forbidden", "请求被理解但拒绝执行"),
     REQUEST_SERVER_ERROR(50000, "REQUEST SERVER ERROR", "服务器错误");
 

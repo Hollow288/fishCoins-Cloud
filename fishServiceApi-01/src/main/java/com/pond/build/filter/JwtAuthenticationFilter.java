@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
-            response.getWriter().write(JSONObject.toJSONString(new CommonResult<>(HttpStatusCode.FORBIDDEN_ROLE_ERR.getCode(),HttpStatusCode.FORBIDDEN_ROLE_ERR.getCnMessage())));
+            response.getWriter().write(JSONObject.toJSONString(new CommonResult<>(HttpStatusCode.ACCESS_TOKEN_ERR.getCode(),HttpStatusCode.ACCESS_TOKEN_ERR.getCnMessage())));
             return;
         }
 

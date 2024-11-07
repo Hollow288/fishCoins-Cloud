@@ -16,5 +16,9 @@ public interface ArmsMapper extends BaseMapper<Arms> {
 
     int insertBatchSomeColumn(Collection<Arms> entityList);
 
-    List<Arms> getAllArmsInfoByPage(@Param("offset") int offset, @Param("limit") int limit, @Param("searchList") List<String> searchList);
+    Integer getCountArms(@Param("searchList") List<String> searchList);
+
+    List<Arms> getArmsInfoByPage(@Param("offset") int offset, @Param("limit") int limit, @Param("searchList") List<String> searchList);
+
+    Arms getArmsInfoById(@Param("armsId") Integer armsId);
 }
