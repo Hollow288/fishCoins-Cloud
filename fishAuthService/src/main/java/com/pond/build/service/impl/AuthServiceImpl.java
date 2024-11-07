@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     private String clientSecret;
 
     @Override
-    public CommonResult loginByGithub(Map<String, Object> params){
+    public CommonResult<Map<String,Object>> loginByGithub(Map<String, Object> params){
 
         if(params.get("code") == null || params.get("code").equals("")){
             return new CommonResult<>(HttpStatusCode.FORBIDDEN_ROLE_ERR.getCode(),HttpStatusCode.FORBIDDEN_ROLE_ERR.getCnMessage());
@@ -121,7 +121,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public CommonResult loginBypassWord(Map<String, Object> params) {
+    public CommonResult<Map<String,Object>> loginBypassWord(Map<String, Object> params) {
 
         if(params.get("userName") == null || params.get("userName").equals("") || params.get("passWord") == null || params.get("passWord").equals("")){
             return new CommonResult<>(HttpStatusCode.USERNAME_PASSWORD_ERR.getCode(),HttpStatusCode.USERNAME_PASSWORD_ERR.getCnMessage());
@@ -171,7 +171,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public CommonResult refreshToken(String refreshToken) {
+    public CommonResult<Map<String,Object>> refreshToken(String refreshToken) {
 
         try {
 
@@ -206,7 +206,7 @@ public class AuthServiceImpl implements AuthService {
             redisUtil.set("refresh_token:"+ user.getUserId(),JSONObject.toJSONString(tokenUser),JwtUtil.JWT_REFRESH_TTL/1000);
 
             //生成新的AccessToken和RefreshToken
-            Map<String, String> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             String newAccessToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_ACCESS_TTL);
             String newRefreshToken = jwtUtil.createJWT(JSONObject.toJSONString(tokenUser), JwtUtil.JWT_REFRESH_TTL);
             //将refreshToken加入黑名单
