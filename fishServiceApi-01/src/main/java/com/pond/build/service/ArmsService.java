@@ -10,6 +10,10 @@ import java.util.Map;
 public interface ArmsService {
     CommonResult<Arms> addArms(Arms arms, TokenUser user);
 
+    CommonResult<Arms> editArms(Arms arms, TokenUser user);
+
+    CommonResult<Object> deleteArms(Map<String,Object> armsIds, TokenUser user);
+
     CommonResult<Map<String,Object>> armsByPage(Integer page, Integer pageSize, String attributeType);
 
     CommonResult<Arms> armsById(Integer armsId);

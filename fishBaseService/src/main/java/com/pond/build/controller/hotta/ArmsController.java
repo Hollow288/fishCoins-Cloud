@@ -22,6 +22,20 @@ public class ArmsController {
     }
 
 
+    @PutMapping("/edit-arms")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> editArms(@RequestBody Object arms){
+        return armsRemote.editArms(arms);
+    }
+
+
+    @PutMapping("/delete-arms")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> deleteArms(@RequestBody Object armsIds){
+        return armsRemote.deleteArms(armsIds);
+    }
+
+
     @GetMapping("/page-arms")
     @PreAuthorize("hasRole('ADMIN')")
     public Map<String,Object> armsByPage(@RequestParam(value = "page") Integer page,

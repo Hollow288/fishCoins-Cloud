@@ -21,4 +21,6 @@ public interface ArmsMapper extends BaseMapper<Arms> {
     List<Arms> getArmsInfoByPage(@Param("offset") int offset, @Param("limit") int limit, @Param("searchList") List<String> searchList);
 
     Arms getArmsInfoById(@Param("armsId") Integer armsId);
+
+    void deleteDetailByArmsId(@Param("armsId") Integer armsId);
 }

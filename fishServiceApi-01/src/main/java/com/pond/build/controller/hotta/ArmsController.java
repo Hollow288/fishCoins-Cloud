@@ -25,6 +25,21 @@ public class ArmsController {
         return armsService.addArms(arms,user);
     }
 
+    @PutMapping("/edit-arms")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Arms> editArms(@RequestBody Arms arms, TokenUser user){
+        return armsService.editArms(arms,user);
+    }
+
+
+    @PutMapping("/delete-arms")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Object> deleteArms(@RequestBody Map<String,Object> armsIds, TokenUser user){
+        return armsService.deleteArms(armsIds,user);
+    }
+
 
     @GetMapping("/page-arms")
     @PreAuthorize("hasRole('ADMIN')")

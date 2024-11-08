@@ -1,7 +1,7 @@
 package com.pond.build.model.arms;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.pond.build.model.basic.ItemsBasic;
+import com.pond.build.utils.CommonUtil;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -127,7 +127,7 @@ public class Arms  implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     /**
      * 更新人
@@ -136,14 +136,14 @@ public class Arms  implements Serializable {
     /**
      * 更新时间
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     /**
      * 删除标志（0代表存在 1代表删除）
      */
     private String delFlag;
 
-
-
-
+    public String getArmsThumbnailUrl() {
+        return CommonUtil.fileUrlEncoderChance(armsThumbnailUrl);
+    }
 }

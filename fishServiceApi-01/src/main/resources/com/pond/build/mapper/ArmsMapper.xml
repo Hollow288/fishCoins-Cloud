@@ -340,5 +340,18 @@ N+1 问题的查询次数：
 
 
 
+    <delete id="deleteDetailByArmsId">
+            DELETE FROM arms_characteristics WHERE arms_id = #{armsId};
+            DELETE FROM arms_cooperation_attacks WHERE arms_id = #{armsId};
+            DELETE FROM arms_dodge_attacks WHERE arms_id = #{armsId};
+            DELETE FROM arms_exclusives WHERE arms_id = #{armsId};
+            DELETE FROM arms_primary_attacks WHERE arms_id = #{armsId};
+            DELETE FROM arms_skill_attacks WHERE arms_id = #{armsId};
+            DELETE FROM arms_star_ratings WHERE arms_id = #{armsId};
+    </delete>
+
+
+
+
 </mapper>
 

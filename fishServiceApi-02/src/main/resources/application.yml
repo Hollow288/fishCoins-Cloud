@@ -1,6 +1,6 @@
 server:
   # 该服务的端口号
-  port: 9001
+  port: 9002
 
 spring:
   application:

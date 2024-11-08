@@ -47,6 +47,7 @@
         <jjwt-jackson.version>0.12.6</jjwt-jackson.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
+        <minio.version>8.5.12</minio.version>
     </properties>
 
     <dependencies>
