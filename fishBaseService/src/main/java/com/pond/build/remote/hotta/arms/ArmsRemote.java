@@ -10,20 +10,23 @@ import java.util.Map;
 
 @FeignClient(name= "fishServiceApi", contextId = "armsServiceClient", fallback = ArmsRemoteFallBackService.class)
 public interface ArmsRemote {
-    @PostMapping("/add-arms")
+
+    String PREFIX = "/arms";
+
+    @PostMapping(PREFIX + "/add-arms")
     Map<String,Object> addArms(@RequestBody Object arms);
 
-    @PutMapping("/edit-arms")
+    @PutMapping(PREFIX + "/edit-arms")
     Map<String,Object> editArms(@RequestBody Object arms);
 
-    @PutMapping (value = "/delete-arms")
+    @PutMapping (value = PREFIX + "/delete-arms")
     Map<String,Object> deleteArms(@RequestBody Object armsIds);
 
-    @GetMapping("/page-arms")
+    @GetMapping(PREFIX + "/page-arms")
     Map<String,Object> armsByPage(@RequestParam(value = "page") Integer page,
                                       @RequestParam(value = "page_size") Integer pageSize,
                                       @RequestParam(value = "attribute_type", defaultValue = "") String attributeType);
 
-    @GetMapping("/id-arms/{arms_id}")
+    @GetMapping(PREFIX + "/id-arms/{arms_id}")
     Map<String, Object> armsById(@PathVariable(value = "arms_id") Integer armsId);
 }

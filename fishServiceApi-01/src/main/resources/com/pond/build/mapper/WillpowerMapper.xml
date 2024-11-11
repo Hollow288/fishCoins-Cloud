@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pond.build.mapper.willpower.WillpowerMapper">
+
+    <resultMap type="com.pond.build.model.willpower.Willpower" id="WillpowerMap">
+        <result property="willpowerId" column="willpower_id" jdbcType="INTEGER"/>
+        <result property="willpowerName" column="willpower_name" jdbcType="VARCHAR"/>
+        <result property="willpowerRarity" column="willpower_rarity" jdbcType="VARCHAR"/>
+        <result property="willpowerDescription" column="willpower_description" jdbcType="VARCHAR"/>
+        <result property="willpowerThumbnailUrl" column="willpower_thumbnail_url" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+
+        <!-- 子表 willpower_classification 映射 -->
+        <collection property="willpowerClassification" ofType="com.pond.build.model.willpower.WillpowerClassification">
+            <result property="classificationId" column="classification_id" jdbcType="INTEGER"/>
+            <result property="willpowerId" column="classification_willpower_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="classification_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="classification_items_describe" jdbcType="VARCHAR"/>
+            <result property="classificationType" column="classification_type" jdbcType="VARCHAR"/>
+        </collection>
+
+        <!-- 子表 willpower_suit 映射 -->
+        <collection property="willpowerSuit" ofType="com.pond.build.model.willpower.WillpowerSuit">
+            <result property="suitId" column="suit_id" jdbcType="INTEGER"/>
+            <result property="willpowerId" column="suit_willpower_id" jdbcType="INTEGER"/>
+            <result property="itemsName" column="suit_items_name" jdbcType="VARCHAR"/>
+            <result property="itemsDescribe" column="suit_items_describe" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+
+    <select id="getWillpowerInfoByPage" resultMap="WillpowerMap">
+        SELECT w.*,
+        wc.characteristics_id,
+        wc.willpower_id as classification_willpower_id,
+        wc.items_name as classification_items_name,
+        wc.items_describe as classification_items_describe,
+        ws.suit_id,
+        ws.willpower_id as suit_willpower_id,
+        ws.items_name as suit_items_name,
+        ws.items_describe as suit_items_describe,
+        FROM (SELECT * FROM willpower w
+        WHERE del_flag = '0'
+        <if test="searchName != null and searchName != ''">
+            and w.willpower_name like concat('%',#{searchName},'%')
+        </if>
+        ORDER BY willpower_id
+        LIMIT #{limit} OFFSET #{offset}) w
+        LEFT JOIN willpower_classification wc ON w.willpower_id = wc.willpower_id
+        LEFT JOIN willpower_suit ws ON w.willpower_id = ws.willpower_id
+
+    </select>
+
+</mapper>
+

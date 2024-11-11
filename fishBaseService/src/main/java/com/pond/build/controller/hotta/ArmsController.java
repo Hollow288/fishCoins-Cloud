@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/arms")
 public class ArmsController {
+
 
     @Autowired
     private ArmsRemote armsRemote;

@@ -7,37 +7,28 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("willpower_classification")
-public class WillpowerClassification {
+@TableName("willpower_suit")
+public class WillpowerSuit {
 
-    private static final long serialVersionUID = -17497182915619105L;
+    private static final long serialVersionUID = -17497172915612105L;
 
     /**
-     * 分类介绍ID
+     * 意志套装ID
      */
     @TableId(type = IdType.AUTO)
-    private Integer classificationId;
+    private Integer suitId;
 
     /**
-     * 意志种类
-     */
-    private String classificationType;
-
-    /**
-     * 意志名称
-     */
-    private String itemsName;
-
-    /**
-     * 意志描述
-     */
-    private String itemsDescribe;
-
-
-    /**
-     * 意志ID
+     * 武器id
      */
     private Integer willpowerId;
-
+    /**
+     * 词条名称
+     */
+    private String itemsName;
+    /**
+     * 词条描述
+     */
+    private String itemsDescribe;
 
 }
