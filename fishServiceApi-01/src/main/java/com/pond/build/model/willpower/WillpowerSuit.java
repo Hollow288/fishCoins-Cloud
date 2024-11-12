@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @TableName("willpower_suit")
-public class WillpowerSuit {
+public class WillpowerSuit implements Serializable {
 
-    private static final long serialVersionUID = -17497172915612105L;
+    private static final long serialVersionUID = -95082041266803144L;
 
     /**
      * 意志套装ID

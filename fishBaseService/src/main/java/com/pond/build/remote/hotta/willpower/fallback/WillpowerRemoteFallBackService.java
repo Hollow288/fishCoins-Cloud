@@ -8,6 +8,11 @@ import java.util.Map;
 
 @Component
 public class WillpowerRemoteFallBackService implements WillpowerRemote {
+
+    @Override
+    public Map<String,Object> addWillpower(Object willpower) {
+        throw FeignException.errorStatus("addWillpower", null);
+    }
     @Override
     public Map<String, Object> willpowerByPage(Integer page, Integer pageSize, String searchName) {
         throw FeignException.errorStatus("willpowerByPage", null);

@@ -8,6 +8,7 @@ import com.pond.build.model.CommonResult;
 import com.pond.build.model.TokenUser;
 import com.pond.build.model.arms.Arms;
 import com.pond.build.model.arms.ArmsCooperationAttacks;
+import com.pond.build.model.arms.response.ArmsBasic;
 import com.pond.build.service.ArmsService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +132,7 @@ public class ArmsServiceImpl implements ArmsService {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("total", armsMapper.getCountArms(paramsList));
-        List<Arms> allArmsInfoByPage = armsMapper.getArmsInfoByPage(offset,limit,paramsList);
+        List<ArmsBasic> allArmsInfoByPage = armsMapper.getArmsBasicInfoByPage(offset,limit,paramsList);
         resultMap.put("data", allArmsInfoByPage);
         resultMap.put("page", page);
         resultMap.put("pageSize", pageSize);

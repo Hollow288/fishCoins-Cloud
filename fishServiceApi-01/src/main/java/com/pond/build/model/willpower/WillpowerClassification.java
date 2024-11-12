@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @TableName("willpower_classification")
-public class WillpowerClassification {
+public class WillpowerClassification implements Serializable {
 
-    private static final long serialVersionUID = -17497182915619105L;
+    private static final long serialVersionUID = -75081041266803144L;
 
     /**
      * 分类介绍ID

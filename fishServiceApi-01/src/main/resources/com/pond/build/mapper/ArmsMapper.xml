@@ -233,15 +233,29 @@ N+1 问题的查询次数：
     </resultMap>
 
 
-        <select id="getCountArms" resultType="java.lang.Integer">
-            SELECT count(*) FROM arms a WHERE a.del_flag = '0'
-            <if test="searchList != null and searchList.size() > 0">
-                and a.arms_attribute in
-                <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
-                    #{typeCode}
-                </foreach>
-            </if>
-        </select>
+    <select id="getCountArms" resultType="java.lang.Integer">
+        SELECT count(*) FROM arms a WHERE a.del_flag = '0'
+        <if test="searchList != null and searchList.size() > 0">
+            and a.arms_attribute in
+            <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                #{typeCode}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="getArmsBasicInfoByPage" resultType="com.pond.build.model.arms.response.ArmsBasic">
+        SELECT * FROM arms a
+        WHERE del_flag = '0'
+        <if test="searchList != null and searchList.size() > 0">
+            and a.arms_attribute in
+            <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                #{typeCode}
+            </foreach>
+        </if>
+        ORDER BY arms_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 
 
 

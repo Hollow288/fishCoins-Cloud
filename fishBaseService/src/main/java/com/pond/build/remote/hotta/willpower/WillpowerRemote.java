@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@FeignClient(name= "fishServiceApi", contextId = "willpowerServiceClient", fallback = WillpowerRemoteFallBackService.class)
+@FeignClient(name= "fishServiceApi", contextId = "willpowerServiceClient")
 public interface WillpowerRemote {
 
     String PREFIX = "/willpower";
+
+    @PostMapping(PREFIX + "/add-willpower")
+    Map<String,Object> addWillpower(@RequestBody Object willpower);
 
     @GetMapping(PREFIX + "/page-willpower")
     Map<String,Object> willpowerByPage(@RequestParam(value = "page") Integer page,

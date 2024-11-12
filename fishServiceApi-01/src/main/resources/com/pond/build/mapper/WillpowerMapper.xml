@@ -34,16 +34,37 @@
 
 
 
+    <select id="getCountWillpower" resultType="java.lang.Integer">
+        SELECT count(*) FROM willpower w WHERE w.del_flag = '0'
+        <if test="searchName != null and searchName != ''">
+            and w.willpower_name like concat('%',#{searchName},'%')
+        </if>
+    </select>
+
+
+    <select id="getWillpowerBasicInfoByPage" resultType="com.pond.build.model.willpower.response.WillpowerBasic">
+        SELECT * FROM willpower w
+        WHERE del_flag = '0'
+        <if test="searchName != null and searchName != ''">
+            and w.willpower_name like concat('%',#{searchName},'%')
+        </if>
+        ORDER BY willpower_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+
     <select id="getWillpowerInfoByPage" resultMap="WillpowerMap">
         SELECT w.*,
-        wc.characteristics_id,
+        wc.classification_id,
         wc.willpower_id as classification_willpower_id,
         wc.items_name as classification_items_name,
         wc.items_describe as classification_items_describe,
+        wc.classification_type,
         ws.suit_id,
         ws.willpower_id as suit_willpower_id,
         ws.items_name as suit_items_name,
-        ws.items_describe as suit_items_describe,
+        ws.items_describe as suit_items_describe
         FROM (SELECT * FROM willpower w
         WHERE del_flag = '0'
         <if test="searchName != null and searchName != ''">

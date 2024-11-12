@@ -1,6 +1,8 @@
-package com.pond.build.model.willpower;
+package com.pond.build.model.willpower.response;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.pond.build.model.willpower.WillpowerClassification;
+import com.pond.build.model.willpower.WillpowerSuit;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,15 +10,13 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@TableName("willpower")
-public class Willpower implements Serializable {
+public class WillpowerBasic implements Serializable {
 
-    private static final long serialVersionUID = -17497182915612105L;
+    private static final long serialVersionUID = -17497182915612209L;
 
     /**
      * 意志ID
      */
-    @TableId(type = IdType.AUTO)
     private Integer willpowerId;
 
     /**
@@ -48,7 +48,6 @@ public class Willpower implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
@@ -59,25 +58,12 @@ public class Willpower implements Serializable {
     /**
      * 更新时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     /**
      * 删除标志（0代表存在 1代表删除）
      */
     private String delFlag;
-
-    /**
-     * 意志分类介绍
-     */
-    @TableField(exist = false)
-    private List<WillpowerClassification> willpowerClassification;
-
-    /**
-     * 意志套装
-     */
-    @TableField(exist = false)
-    private List<WillpowerSuit> willpowerSuit;
 
 
 }

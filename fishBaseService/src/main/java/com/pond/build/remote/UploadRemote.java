@@ -16,7 +16,14 @@ import java.util.Map;
 @FeignClient(name= "fishServiceApi", contextId = "uploadServiceClient")
 public interface UploadRemote {
 
-    @PostMapping(value = "/upload/{arms_id}/arms-img",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    String PREFIX = "/upload";
+
+    @PostMapping(value = PREFIX + "/{arms_id}/arms-img",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     Map<String,Object> uploadArmsImg(@RequestPart(value = "file") MultipartFile[] file, @PathVariable("arms_id") String armsId);
+
+
+    @PostMapping(value = PREFIX + "/{willpower_id}/willpower-img",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    Map<String,Object> uploadWillpowerImg(@RequestPart(value = "file") MultipartFile[] file, @PathVariable("willpower_id") String willpowerId);
 }
