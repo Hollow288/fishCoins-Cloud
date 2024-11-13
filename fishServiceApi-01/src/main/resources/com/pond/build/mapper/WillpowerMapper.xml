@@ -48,7 +48,6 @@
         <if test="searchName != null and searchName != ''">
             and w.willpower_name like concat('%',#{searchName},'%')
         </if>
-        ORDER BY willpower_id
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -70,12 +69,36 @@
         <if test="searchName != null and searchName != ''">
             and w.willpower_name like concat('%',#{searchName},'%')
         </if>
-        ORDER BY willpower_id
         LIMIT #{limit} OFFSET #{offset}) w
         LEFT JOIN willpower_classification wc ON w.willpower_id = wc.willpower_id
         LEFT JOIN willpower_suit ws ON w.willpower_id = ws.willpower_id
-
+        ORDER BY willpower_id ,wc.classification_id , ws.suit_id
     </select>
+
+
+    <select id="getWillpowerInfoById" resultMap="WillpowerMap">
+        SELECT w.*,
+        wc.classification_id,
+        wc.willpower_id as classification_willpower_id,
+        wc.items_name as classification_items_name,
+        wc.items_describe as classification_items_describe,
+        wc.classification_type,
+        ws.suit_id,
+        ws.willpower_id as suit_willpower_id,
+        ws.items_name as suit_items_name,
+        ws.items_describe as suit_items_describe
+        FROM (SELECT * FROM willpower w
+        WHERE del_flag = '0' and willpower_id = #{willpowerId}) w
+        LEFT JOIN willpower_classification wc ON w.willpower_id = wc.willpower_id
+        LEFT JOIN willpower_suit ws ON w.willpower_id = ws.willpower_id
+        ORDER BY wc.classification_id , ws.suit_id
+    </select>
+
+
+    <delete id="deleteDetailByWillpowerId">
+        DELETE FROM willpower_classification WHERE willpower_id = #{willpowerId};
+        DELETE FROM willpower_suit WHERE willpower_id = #{willpowerId};
+    </delete>
 
 </mapper>
 

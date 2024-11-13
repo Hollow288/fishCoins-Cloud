@@ -21,4 +21,8 @@ public interface WillpowerMapper extends BaseMapper<Willpower> {
 
     List<Willpower> getWillpowerInfoByPage(@Param("offset") int offset, @Param("limit") int limit, @Param("searchName") String searchName);
 
+    Willpower getWillpowerInfoById(@Param("willpowerId") Integer willpowerId);
+
+    void deleteDetailByWillpowerId(@Param("willpowerId") Integer willpowerId);
+
 }

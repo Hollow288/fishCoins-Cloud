@@ -28,6 +28,13 @@ public class WillpowerController {
         return willpowerService.addWillpower(willpower,user);
     }
 
+    @PutMapping("/edit-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Willpower> editWillpower(@RequestBody Willpower willpower, TokenUser user){
+        return willpowerService.editWillpower(willpower,user);
+    }
+
 
     @GetMapping("/page-willpower")
     @PreAuthorize("hasRole('ADMIN')")
@@ -35,5 +42,18 @@ public class WillpowerController {
                                                        @RequestParam(value = "page_size") Integer pageSize,
                                                        @RequestParam(value = "search_name", defaultValue = "") String searchName){
         return willpowerService.willpowerByPage(page,pageSize,searchName);
+    }
+
+    @PutMapping("/delete-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Object> deleteWillpower(@RequestBody Map<String,Object> willpowerIds, TokenUser user){
+        return willpowerService.deleteWillpower(willpowerIds,user);
+    }
+
+    @GetMapping("/id-willpower/{willpower_id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public CommonResult<Willpower> willpowerById(@PathVariable(value = "willpower_id") Integer willpowerId){
+        return willpowerService.willpowerById(willpowerId);
     }
 }

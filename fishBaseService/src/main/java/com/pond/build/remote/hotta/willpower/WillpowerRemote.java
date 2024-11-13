@@ -15,9 +15,21 @@ public interface WillpowerRemote {
     @PostMapping(PREFIX + "/add-willpower")
     Map<String,Object> addWillpower(@RequestBody Object willpower);
 
+    @PutMapping(PREFIX + "/edit-willpower")
+    Map<String,Object> editWillpower(@RequestBody Object willpower);
+
+
+    @PutMapping (value = PREFIX + "/delete-willpower")
+    Map<String,Object> deleteWillpower(@RequestBody Object willpowerIds);
+
     @GetMapping(PREFIX + "/page-willpower")
     Map<String,Object> willpowerByPage(@RequestParam(value = "page") Integer page,
                                        @RequestParam(value = "page_size") Integer pageSize,
                                        @RequestParam(value = "search_name", defaultValue = "") String searchName);
+
+
+
+    @GetMapping(PREFIX + "/id-willpower/{willpower_id}")
+    Map<String, Object> willpowerById(@PathVariable(value = "willpower_id") Integer willpowerId);
 
 }
