@@ -38,42 +38,52 @@ public class Arms  implements Serializable {
     /**
      * 武器破防
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsOverwhelmed;
     /**
      * 武器充能
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsChargingEnergy;
     /**
      * 武器攻击力-初始
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsAggressivityStart;
     /**
      * 武器血量-初始
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsBloodVolumeStart;
     /**
      * 武器全抗-初始
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsDefenseCapabilityStart;
     /**
      * 武器暴击-初始
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsCriticalStrikeStart;
     /**
      * 武器攻击-满级
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsAggressivityEnd;
     /**
      * 武器血量-满级
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsBloodVolumeEnd;
     /**
      * 武器全抗-满级
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsDefenseCapabilityEnd;
     /**
      * 武器暴击-满级
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private BigDecimal armsCriticalStrikeEnd;
     /**
      * 武器缩略图地址
