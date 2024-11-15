@@ -41,4 +41,20 @@ public class MimicryController {
     public CommonResult<Mimicry> mimicryById(@PathVariable(value = "mimicry_id") Integer mimicryId){
         return mimicryService.mimicryById(mimicryId);
     }
+
+
+    @PutMapping("/edit-mimicry")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Mimicry> editMimicry(@RequestBody Mimicry mimicry, TokenUser user){
+        return mimicryService.editMimicry(mimicry,user);
+    }
+
+
+    @PutMapping("/delete-mimicry")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Object> deleteMimicry(@RequestBody Map<String,Object> mimicryIds, TokenUser user){
+        return mimicryService.deleteMimicry(mimicryIds,user);
+    }
 }

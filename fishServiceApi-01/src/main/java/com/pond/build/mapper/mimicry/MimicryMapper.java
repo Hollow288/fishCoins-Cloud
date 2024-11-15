@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface MimicryMapper extends FishBaseMapper<Mimicry> {
 
     Mimicry getMimicryInfoById(@Param("mimicryId") Integer mimicryId);
+
+    void deleteDetailByMimicryId(@Param("mimicryId") Integer mimicryId);
 }

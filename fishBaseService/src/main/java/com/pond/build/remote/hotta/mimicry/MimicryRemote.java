@@ -23,4 +23,12 @@ public interface MimicryRemote {
     @GetMapping(PREFIX + "/id-mimicry/{mimicry_id}")
     Map<String, Object> mimicryById(@PathVariable(value = "mimicry_id") Integer mimicryId);
 
+
+    @PutMapping(PREFIX + "/edit-mimicry")
+    Map<String,Object> editMimicry(@RequestBody Object mimicry);
+
+
+    @PutMapping (value = PREFIX + "/delete-mimicry")
+    Map<String,Object> deleteMimicry(@RequestBody Object mimicryIds);
+
 }

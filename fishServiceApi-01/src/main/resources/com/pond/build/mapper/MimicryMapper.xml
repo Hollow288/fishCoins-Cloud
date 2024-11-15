@@ -36,4 +36,9 @@
         ORDER BY m.mimicry_id , mf.favors_id
     </select>
 
+
+    <delete id="deleteDetailByMimicryId">
+        DELETE FROM mimicry_favors WHERE mimicry_id = #{mimicryId};
+    </delete>
+
 </mapper>

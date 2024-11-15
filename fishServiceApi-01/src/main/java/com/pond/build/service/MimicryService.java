@@ -12,4 +12,8 @@ public interface MimicryService {
     CommonResult<Mimicry> addMimicry(Mimicry mimicry, TokenUser user);
 
     CommonResult<Mimicry> mimicryById(Integer mimicryId);
+
+    CommonResult<Mimicry> editMimicry(Mimicry mimicry, TokenUser user);
+
+    CommonResult<Object> deleteMimicry(Map<String, Object> mimicryIds, TokenUser user);
 }

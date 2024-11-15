@@ -35,4 +35,18 @@ public class MimicryController {
     public Map<String,Object> mimicryById(@PathVariable(value = "mimicry_id") Integer mimicryId){
         return mimicryRemote.mimicryById(mimicryId);
     }
+
+
+    @PutMapping("/edit-mimicry")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> editMimicry(@RequestBody Object mimicry){
+        return mimicryRemote.editMimicry(mimicry);
+    }
+
+
+    @PutMapping("/delete-mimicry")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> deleteMimicry(@RequestBody Object mimicryIds){
+        return mimicryRemote.deleteMimicry(mimicryIds);
+    }
 }
