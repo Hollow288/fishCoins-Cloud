@@ -1,14 +1,18 @@
 package com.pond.build.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.pond.build.aop.InjectUserDetails;
 import com.pond.build.enums.HttpStatusCode;
+import com.pond.build.mapper.ArmsMimicryWillpowerMapper;
 import com.pond.build.mapper.arms.*;
+import com.pond.build.model.ArmsMimicryWillpower;
 import com.pond.build.model.CommonResult;
 import com.pond.build.model.TokenUser;
 import com.pond.build.model.arms.Arms;
-import com.pond.build.model.arms.ArmsCooperationAttacks;
 import com.pond.build.model.arms.response.ArmsBasic;
+import com.pond.build.model.arms.response.ArmsIdName;
+import com.pond.build.model.mimicry.response.MimicryIdName;
+import com.pond.build.model.willpower.response.WillpowerIdName;
 import com.pond.build.service.ArmsService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +49,9 @@ public class ArmsServiceImpl implements ArmsService {
 
     @Autowired
     private ArmsStarRatingsMapper armsStarRatingsMapper;
+
+    @Autowired
+    private ArmsMimicryWillpowerMapper armsMimicryWillpowerMapper;
 
     @Override
     public CommonResult<Arms> addArms(Arms arms, TokenUser user) {
@@ -145,5 +152,34 @@ public class ArmsServiceImpl implements ArmsService {
     public CommonResult<Arms> armsById(Integer armsId) {
         Arms arms = armsMapper.getArmsInfoById(armsId);
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"查询成功",arms);
+    }
+
+    @Override
+    public CommonResult<Map<String, Object>> armsMimicryWillpower() {
+
+        List<ArmsIdName> armsIdNames = armsMimicryWillpowerMapper.selectArmsIdName();
+        List<MimicryIdName> mimicryIdNames = armsMimicryWillpowerMapper.selectMimicryIdName();
+        List<WillpowerIdName> willpowerIdNames = armsMimicryWillpowerMapper.selectWillpowerIdName();
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("armsIdNames",armsIdNames);
+        resultMap.put("mimicryIdNames",mimicryIdNames);
+        resultMap.put("willpowerIdNames",willpowerIdNames);
+
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"查询成功",resultMap);
+    }
+
+    @Override
+    public CommonResult<ArmsMimicryWillpower> armsMimicryWillpowerBindInfo(Integer armsId) {
+        LambdaQueryWrapper<ArmsMimicryWillpower> updateWrapper = new LambdaQueryWrapper<>();
+        updateWrapper.eq(ArmsMimicryWillpower::getArmsId, armsId);
+        ArmsMimicryWillpower armsMimicryWillpower = armsMimicryWillpowerMapper.selectOne(updateWrapper);
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"查询成功",armsMimicryWillpower);
+    }
+
+    @Override
+    public CommonResult<Object> editArmsMimicryWillpower(ArmsMimicryWillpower armsMimicryWillpower) {
+        armsMimicryWillpowerMapper.saveOrUpdate(armsMimicryWillpower);
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功");
     }
 }

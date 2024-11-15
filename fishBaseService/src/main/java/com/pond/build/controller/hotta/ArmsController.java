@@ -53,4 +53,24 @@ public class ArmsController {
         return armsRemote.armsById(armsId);
     }
 
+
+    @GetMapping("/arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> armsMimicryWillpower(){
+        return armsRemote.armsMimicryWillpower();
+    }
+
+    @GetMapping("/bind/{arms_id}/arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> armsMimicryWillpowerBindInfo(@PathVariable(value = "arms_id") Integer armsId){
+        return armsRemote.armsMimicryWillpowerBindInfo(armsId);
+    }
+
+
+    @PutMapping("/edit-arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> editArmsMimicryWillpower(@RequestBody Object armsMimicryWillpower){
+        return armsRemote.editArmsMimicryWillpower(armsMimicryWillpower);
+    }
+
 }

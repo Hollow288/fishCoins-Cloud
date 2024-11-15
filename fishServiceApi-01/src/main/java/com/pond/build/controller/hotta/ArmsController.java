@@ -1,6 +1,7 @@
 package com.pond.build.controller.hotta;
 
 import com.pond.build.aop.InjectUserDetails;
+import com.pond.build.model.ArmsMimicryWillpower;
 import com.pond.build.model.CommonResult;
 import com.pond.build.model.TokenUser;
 import com.pond.build.model.arms.Arms;
@@ -55,6 +56,28 @@ public class ArmsController {
     @PreAuthorize("hasRole('ADMIN')")
     public CommonResult<Arms> armsById(@PathVariable(value = "arms_id") Integer armsId){
         return armsService.armsById(armsId);
+    }
+
+
+    @GetMapping("/arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public CommonResult<Map<String,Object>> armsMimicryWillpower(){
+        return armsService.armsMimicryWillpower();
+    }
+
+
+
+    @GetMapping("/bind/{arms_id}/arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public CommonResult<ArmsMimicryWillpower> armsMimicryWillpowerBindInfo(@PathVariable(value = "arms_id") Integer armsId){
+        return armsService.armsMimicryWillpowerBindInfo(armsId);
+    }
+
+
+    @PutMapping("/edit-arms-mimicry-willpower")
+    @PreAuthorize("hasRole('ADMIN')")
+    public CommonResult<Object> editArmsMimicryWillpower(@RequestBody ArmsMimicryWillpower armsMimicryWillpower){
+        return armsService.editArmsMimicryWillpower(armsMimicryWillpower);
     }
 
 }

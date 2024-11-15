@@ -11,8 +11,8 @@ public interface FishBaseMapper<T> extends BaseMapper<T> {
         return Db.saveOrUpdate(entity);
     }
 
-    default Boolean saveOrUpdateBatch(Collection<T> collection) {
-        return Db.saveOrUpdateBatch(collection);
+    default void saveOrUpdateBatch(Collection<T> collection) {
+        Db.saveOrUpdateBatch(collection);
     }
 
 
