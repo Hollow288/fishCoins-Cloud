@@ -14,16 +14,24 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping("/upload")
 public class UploadController {
 
     @Autowired
     private UploadService uploadService;
 
-    @PostMapping("/upload/{arms_id}/arms-img")
+    @PostMapping("/{arms_id}/arms-img")
     @PreAuthorize("hasRole('ADMIN')")
     @InjectUserDetails
     public CommonResult<Map<String,Object>> uploadArmsImg(@RequestPart("file") MultipartFile[] file, @PathVariable("arms_id") String armsId, TokenUser user) {
         return uploadService.uploadArmsImg(file, armsId, user);
+    }
+
+    @PostMapping("/{willpower_id}/willpower-img")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Map<String,Object>> uploadWillpowerImg(@RequestPart("file") MultipartFile[] file, @PathVariable("willpower_id") String willpowerId, TokenUser user) {
+        return uploadService.uploadWillpowerImg(file, willpowerId, user);
     }
 
 

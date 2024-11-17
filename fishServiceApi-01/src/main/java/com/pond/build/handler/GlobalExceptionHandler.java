@@ -9,13 +9,19 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public void handleAuthenticationException(HttpServletResponse response, AuthenticationCredentialsNotFoundException ex) throws IOException {
+        logger.error("Authentication error: ", ex);
         response.setStatus(HttpServletResponse.SC_OK);  // 返回401
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -27,6 +33,7 @@ public class GlobalExceptionHandler {
     // 处理403权限不足异常
     @ExceptionHandler(AccessDeniedException.class)
     public void handleAccessDeniedException(HttpServletResponse response, AccessDeniedException ex) throws IOException {
+        logger.error("Access denied: ", ex);
         response.setStatus(HttpServletResponse.SC_OK);  // 返回403
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -37,6 +44,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public void handleException(HttpServletResponse response,Exception ex) throws IOException {
+        logger.error("Unhandled exception: ", ex);
         // 自定义返回内容
         CommonResult result = new CommonResult<>(HttpStatusCode.REQUEST_SERVER_ERROR.getCode(),HttpStatusCode.REQUEST_SERVER_ERROR.getCnMessage());
         // 设置响应内容

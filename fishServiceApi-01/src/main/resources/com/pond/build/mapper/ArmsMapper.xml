@@ -233,15 +233,28 @@ N+1 问题的查询次数：
     </resultMap>
 
 
-        <select id="getCountArms" resultType="java.lang.Integer">
-            SELECT count(*) FROM arms a WHERE a.del_flag = '0'
-            <if test="searchList != null and searchList.size() > 0">
-                and a.arms_attribute in
-                <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
-                    #{typeCode}
-                </foreach>
-            </if>
-        </select>
+    <select id="getCountArms" resultType="java.lang.Integer">
+        SELECT count(*) FROM arms a WHERE a.del_flag = '0'
+        <if test="searchList != null and searchList.size() > 0">
+            and a.arms_attribute in
+            <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                #{typeCode}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="getArmsBasicInfoByPage" resultType="com.pond.build.model.arms.response.ArmsBasic">
+        SELECT * FROM arms a
+        WHERE del_flag = '0'
+        <if test="searchList != null and searchList.size() > 0">
+            and a.arms_attribute in
+            <foreach collection="searchList" item="typeCode" open="(" separator="," close=")">
+                #{typeCode}
+            </foreach>
+        </if>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 
 
 
@@ -284,7 +297,6 @@ N+1 问题的查询次数：
                 #{typeCode}
             </foreach>
         </if>
-        ORDER BY arms_id
         LIMIT #{limit} OFFSET #{offset}) a
         LEFT JOIN arms_characteristics ac ON a.arms_id = ac.arms_id
         LEFT JOIN arms_cooperation_attacks aca ON a.arms_id = aca.arms_id
@@ -293,7 +305,7 @@ N+1 问题的查询次数：
         LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
         LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
         LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
-
+        ORDER BY a.arms_id,ac.characteristics_id,aca.cooperation_attacks_id,ada.dodge_attacks_id,ae.exclusives_id,apa.primary_attacks_id,aka.skill_attacks_id,asr.star_ratings_id
     </select>
 
 
@@ -336,6 +348,7 @@ N+1 问题的查询次数：
         LEFT JOIN arms_primary_attacks apa ON a.arms_id = apa.arms_id
         LEFT JOIN arms_skill_attacks aka ON a.arms_id = aka.arms_id
         LEFT JOIN arms_star_ratings asr ON a.arms_id = asr.arms_id
+        ORDER BY a.arms_id,ac.characteristics_id,aca.cooperation_attacks_id,ada.dodge_attacks_id,ae.exclusives_id,apa.primary_attacks_id,aka.skill_attacks_id,asr.star_ratings_id
     </select>
 
 

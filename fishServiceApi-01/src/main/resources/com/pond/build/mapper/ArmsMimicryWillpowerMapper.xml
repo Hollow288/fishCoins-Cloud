@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pond.build.mapper.ArmsMimicryWillpowerMapper">
+
+
+    <select id="selectArmsIdName" resultType="com.pond.build.model.arms.response.ArmsIdName">
+        select arms_id,arms_name from arms a  where a.del_flag='0' and a.arms_name &lt;&gt; '' and a.arms_name is not null;
+    </select>
+
+    <select id="selectMimicryIdName" resultType="com.pond.build.model.mimicry.response.MimicryIdName">
+        select mimicry_id,mimicry_name from mimicry m  where m.del_flag='0' and m.mimicry_name &lt;&gt; '' AND m.mimicry_name IS NOT NULL;
+    </select>
+
+    <select id="selectWillpowerIdName" resultType="com.pond.build.model.willpower.response.WillpowerIdName">
+        select willpower_id,willpower_name from willpower w  where w.del_flag='0' and w.willpower_name &lt;&gt; '' AND w.willpower_name IS NOT NULL;
+    </select>
+
+</mapper>

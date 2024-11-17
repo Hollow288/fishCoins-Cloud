@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pond.build.mapper.mimicry.MimicryMapper">
+
+    <resultMap type="com.pond.build.model.mimicry.Mimicry" id="MimicryMap">
+        <result property="mimicryId" column="mimicry_id" jdbcType="INTEGER"/>
+        <result property="mimicryName" column="mimicry_name" jdbcType="VARCHAR"/>
+        <result property="mimicryCv" column="mimicry_cv" jdbcType="VARCHAR"/>
+        <result property="mimicrySex" column="mimicry_sex" jdbcType="VARCHAR"/>
+        <result property="mimicryHeight" column="mimicry_height" jdbcType="INTEGER"/>
+        <result property="mimicryFactions" column="mimicry_factions" jdbcType="VARCHAR"/>
+        <result property="mimicryBirthday" column="mimicry_birthday" jdbcType="VARCHAR"/>
+        <result property="mimicryLike" column="mimicry_like" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+        <collection property="mimicryFavors" ofType="com.pond.build.model.mimicry.MimicryFavors">
+            <result property="favorsId" column="favors_id" jdbcType="INTEGER"/>
+            <result property="favorsLevel" column="favors_level" jdbcType="INTEGER"/>
+            <result property="favorsReward" column="favors_reward" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+
+    <select id="getMimicryInfoById" resultMap="MimicryMap">
+        SELECT m.*,
+               mf.favors_id,
+               mf.favors_level,
+               mf.favors_reward
+        FROM (SELECT * FROM mimicry m
+              WHERE del_flag = '0' and mimicry_id = #{mimicryId}) m
+                 LEFT JOIN mimicry_favors mf ON m.mimicry_id = mf.mimicry_id
+        ORDER BY m.mimicry_id , mf.favors_id
+    </select>
+
+
+    <delete id="deleteDetailByMimicryId">
+        DELETE FROM mimicry_favors WHERE mimicry_id = #{mimicryId};
+    </delete>
+
+</mapper>

@@ -9,37 +9,28 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("willpower_classification")
-public class WillpowerClassification implements Serializable {
+@TableName("willpower_suit")
+public class WillpowerSuit implements Serializable {
 
-    private static final long serialVersionUID = -75081041266803144L;
+    private static final long serialVersionUID = -95082041266803144L;
 
     /**
-     * 分类介绍ID
+     * 意志套装ID
      */
     @TableId(type = IdType.AUTO)
-    private Integer classificationId;
+    private Integer suitId;
 
     /**
-     * 意志种类
-     */
-    private String classificationType;
-
-    /**
-     * 意志名称
-     */
-    private String itemsName;
-
-    /**
-     * 意志描述
-     */
-    private String itemsDescribe;
-
-
-    /**
-     * 意志ID
+     * 武器id
      */
     private Integer willpowerId;
-
+    /**
+     * 词条名称
+     */
+    private String itemsName;
+    /**
+     * 词条描述
+     */
+    private String itemsDescribe;
 
 }

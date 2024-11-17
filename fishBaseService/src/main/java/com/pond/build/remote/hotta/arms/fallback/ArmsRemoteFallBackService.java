@@ -1,5 +1,6 @@
 package com.pond.build.remote.hotta.arms.fallback;
 
+import com.pond.build.model.CommonResult;
 import com.pond.build.remote.hotta.arms.ArmsRemote;
 import feign.FeignException;
 import org.springframework.stereotype.Component;
@@ -31,5 +32,20 @@ public class ArmsRemoteFallBackService implements ArmsRemote {
     @Override
     public Map<String, Object> armsById(Integer armsId) {
         throw FeignException.errorStatus("armsById", null);
+    }
+
+    @Override
+    public Map<String, Object> armsMimicryWillpower() {
+        throw FeignException.errorStatus("armsMimicryWillpower", null);
+    }
+
+    @Override
+    public Map<String, Object> armsMimicryWillpowerBindInfo(Integer armsId) {
+        throw FeignException.errorStatus("armsMimicryWillpowerBindInfo", null);
+    }
+
+    @Override
+    public Map<String, Object> editArmsMimicryWillpower(Object armsMimicryWillpower) {
+        throw FeignException.errorStatus("editArmsMimicryWillpower", null);
     }
 }
