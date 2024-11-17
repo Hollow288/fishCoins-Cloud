@@ -1,11 +1,11 @@
 server:
   # 该服务的端口号
-  port: 9100
+  port: 9101
 
 spring:
   application:
     #注册到注册中心的名称,注意不能使用“_”
-    name: fishBaseService-9100
+    name: fishBaseService-9101
 
 apollo:
   bootstrap:
