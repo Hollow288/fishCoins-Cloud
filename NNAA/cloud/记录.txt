@@ -1,0 +1,14 @@
+#dokcer-minio
+
+docker run \
+-p 9000:9000 \
+-p 9009:9009 \
+--net=host \
+--name minio \
+-d --restart=always \
+-e "MINIO_ACCESS_KEY=xxx" \
+-e "MINIO_SECRET_KEY=xxxxx" \
+-v /opt/minio/data:/data \
+-v /opt/minio/config:/root/.minio \
+minio/minio server \
+/data --console-address ":9009" -address ":9000"

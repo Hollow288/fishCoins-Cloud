@@ -153,7 +153,4 @@ public class Arms  implements Serializable {
      */
     private String delFlag;
 
-    public String getArmsThumbnailUrl() {
-        return CommonUtil.fileUrlEncoderChance(armsThumbnailUrl);
-    }
 }
