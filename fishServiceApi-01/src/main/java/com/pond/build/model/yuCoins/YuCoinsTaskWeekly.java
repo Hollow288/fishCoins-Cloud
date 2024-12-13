@@ -1,12 +1,14 @@
 package com.pond.build.model.yuCoins;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 每周域币任务(YuCoinsTaskWeekly)实体类
@@ -24,10 +26,6 @@ public class YuCoinsTaskWeekly implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer taskWeeklyId;
     /**
-     * 每周任务IDS
-     */
-    private String taskTypeIds;
-    /**
      * 发布时间
      */
     private Date taskWeeklyDate;
@@ -35,6 +33,11 @@ public class YuCoinsTaskWeekly implements Serializable {
      * 是否删除（0未删除 1已删除）
      */
     private String delFlag;
+    /**
+     * 任务详情
+     */
+    @TableField(exist = false)
+    private List<Integer> weeklyDetailIds;
 
 }
 

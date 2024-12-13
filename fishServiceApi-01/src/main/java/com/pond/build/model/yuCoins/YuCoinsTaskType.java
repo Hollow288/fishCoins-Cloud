@@ -20,7 +20,7 @@ public class YuCoinsTaskType implements Serializable {
     /**
      * 种类ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer taskTypeId;
     /**
      * 地区
