@@ -32,7 +32,13 @@ public class UploadController {
     @PreAuthorize("hasRole('ADMIN')")
     public Map<String,Object> uploadWillpowerImg(@RequestPart("file") MultipartFile[] file, @PathVariable("willpower_id") String willpowerId) {
         return uploadRemote.uploadWillpowerImg(file, willpowerId);
+    }
 
+
+    @PostMapping(value = "/{consultation_id}/event-consultation-img")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> uploadEventConsultationImg(@RequestPart("file") MultipartFile[] file, @PathVariable("consultation_id") String consultationId) {
+        return uploadRemote.uploadEventConsultationImg(file, consultationId);
     }
 
 

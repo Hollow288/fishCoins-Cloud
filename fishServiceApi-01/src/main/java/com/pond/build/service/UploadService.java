@@ -10,4 +10,6 @@ public interface UploadService {
     CommonResult<Map<String, Object>> uploadArmsImg(MultipartFile[] file, String armsId, TokenUser user);
 
     CommonResult<Map<String, Object>> uploadWillpowerImg(MultipartFile[] files, String willpowerId, TokenUser user);
+
+    CommonResult<Map<String, Object>> uploadEventConsultationImg(MultipartFile[] files, String consultationId, TokenUser user);
 }

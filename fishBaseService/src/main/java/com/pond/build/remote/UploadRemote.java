@@ -26,4 +26,9 @@ public interface UploadRemote {
     @PostMapping(value = PREFIX + "/{willpower_id}/willpower-img",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     Map<String,Object> uploadWillpowerImg(@RequestPart(value = "file") MultipartFile[] file, @PathVariable("willpower_id") String willpowerId);
+
+
+    @PostMapping(value = PREFIX + "/{consultation_id}/event-consultation-img",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    Map<String,Object> uploadEventConsultationImg(@RequestPart(value = "file") MultipartFile[] file, @PathVariable("consultation_id") String consultationId);
 }

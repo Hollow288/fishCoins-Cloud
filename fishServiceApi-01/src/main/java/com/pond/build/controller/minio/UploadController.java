@@ -34,6 +34,13 @@ public class UploadController {
         return uploadService.uploadWillpowerImg(file, willpowerId, user);
     }
 
+    @PostMapping("/{consultation_id}/event-consultation-img")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Map<String,Object>> uploadEventConsultationImg(@RequestPart("file") MultipartFile[] file, @PathVariable("consultation_id") String consultationId, TokenUser user) {
+        return uploadService.uploadEventConsultationImg(file, consultationId, user);
+    }
+
 
 
 }

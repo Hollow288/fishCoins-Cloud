@@ -1,12 +1,15 @@
 package com.pond.build.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.ctrip.framework.apollo.spring.property.SpringValue;
 import com.pond.build.enums.HttpStatusCode;
 import com.pond.build.mapper.AttachmentInformationMapper;
+import com.pond.build.mapper.EventConsultationMapper;
 import com.pond.build.mapper.arms.ArmsMapper;
 import com.pond.build.mapper.willpower.WillpowerMapper;
 import com.pond.build.model.AttachmentInformation;
 import com.pond.build.model.CommonResult;
+import com.pond.build.model.EventConsultation;
 import com.pond.build.model.TokenUser;
 import com.pond.build.model.arms.Arms;
 import com.pond.build.model.willpower.Willpower;
@@ -40,6 +43,9 @@ public class UploadServiceImpl implements UploadService {
 
     @Autowired
     private WillpowerMapper willpowerMapper;
+
+    @Autowired
+    private EventConsultationMapper eventConsultationMapper;
 
     @Override
     public CommonResult<Map<String, Object>> uploadArmsImg(MultipartFile[] files, String armsId, TokenUser user) {
@@ -102,6 +108,36 @@ public class UploadServiceImpl implements UploadService {
             userUpdateWrapper.set("willpower_thumbnail_url",resultName);
             userUpdateWrapper.set("update_by",user.getUserId());
             willpowerMapper.update(null,userUpdateWrapper);
+        }
+
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功");
+    }
+
+    @Override
+    public CommonResult<Map<String, Object>> uploadEventConsultationImg(MultipartFile[] files, String consultationId, TokenUser user) {
+        String bucketName = "fishcoins-event-consultation-img";
+        String filePath = "/"+ LocalDate.now() + "/";
+
+        minioUtil.existBucket(bucketName);
+        //上传文件到Minio
+        List<String> uploadNames = minioUtil.upload(files, bucketName, filePath);
+
+        List<String> resultNames = uploadNames.stream().map(m -> address + "/" + bucketName + filePath + m).toList();
+
+
+        for (String resultName : resultNames) {
+            AttachmentInformation attachmentInformation = new AttachmentInformation();
+            attachmentInformation.setCreateBy(String.valueOf(user.getUserId()));
+            attachmentInformation.setOriTableId(consultationId);
+            attachmentInformation.setOriTableName("event_consultation");
+            attachmentInformation.setAttachUrl(resultName);
+            attachmentInformationMapper.insert(attachmentInformation);
+
+
+            UpdateWrapper<EventConsultation> userUpdateWrapper = new UpdateWrapper<>();
+            userUpdateWrapper.eq("consultation_id",consultationId);
+            userUpdateWrapper.set("consultation_thumbnail_url",resultName);
+            eventConsultationMapper.update(null,userUpdateWrapper);
         }
 
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功");
