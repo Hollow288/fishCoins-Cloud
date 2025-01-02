@@ -19,6 +19,21 @@ linux的mysql默认是区分表名大小写的,如果没开启不区分大小写
 当我执行启动脚本的时候,为什么双击运行(startup.sh)不行,会启动失败,使用git bash就可以,但是我在另一台电脑上直接双击startup.sh是可以启动的
 
 
+基于Eureka和Spring Cloud Netflix提供服务注册和发现,Config Service和Admin Service会向Eureka注册服务，并保持心跳;为了简单起见，目前Eureka在部署时和Config Service是在一个JVM进程中的.
+
+Config Service部署在docker环境中，注册到Meta Server的是docker内网地址，本地开发环境无法直接连接;需要在配置中指定地址:apollo.configService
+
+本地缓存路径:
+Apollo客户端会把从服务端获取到的配置在本地文件系统缓存一份，用于在遇到服务不可用，或网络不通的时候，依然能从本地恢复配置，不影响应用正常运行。
+本地缓存路径默认位于以下路径，所以请确保/opt/data或C:\opt\data\目录存在，且应用有读写权限。
+Mac/Linux: /opt/data/{appId}/config-cache
+Windows: C:\opt\data\{appId}\config-cache
+
+
+
+
+
+
 
 
 
