@@ -13,3 +13,6 @@ apollo:
     eagerLoad:
       enabled: true
     namespaces: fishServiceApi,application
+  configService:
+  access-key:
+    secret:

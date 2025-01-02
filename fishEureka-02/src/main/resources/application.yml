@@ -13,3 +13,6 @@ apollo:
     eagerLoad:
       enabled: true
     namespaces: fishEureka,application
+  configService:
+  access-key:
+    secret:

@@ -13,4 +13,7 @@ apollo:
     eagerLoad:
           enabled: true
     namespaces: fishGateway,application
+  configService:
+  access-key:
+    secret:
 
