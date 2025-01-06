@@ -12,11 +12,11 @@ jobs:
     strategy:
       matrix:
         module:
-          - fishGateway
-          - fishAuthService
-          - fishBaseService
-          - fishEureka
-          - fishServiceApi
+          - fish-gateway
+          - fish-auth-service
+          - fish-base-service
+          - fish-eureka
+          - fish-service-api
 
     steps:
       - name: Checkout code

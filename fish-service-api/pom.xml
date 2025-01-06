@@ -7,19 +7,18 @@
 <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
 <!--        <version>3.2.5</version>-->
 <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-
         <groupId>com.pond</groupId>
         <artifactId>fishCoins</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
-    <artifactId>fishEureka</artifactId>
+    <artifactId>fish-service-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fishEureka</name>
-    <description>fishEureka</description>
+    <name>fishServiceApi-01</name>
+    <description>fishServiceApi-01</description>
     <properties>
         <java.version>17</java.version>
     </properties>
+
 
     <dependencies>
 
@@ -47,14 +46,59 @@
             <version>${apollo-client.version}</version>
         </dependency>
 
-        <!-- eureka服务端的依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pond</groupId>
+            <artifactId>fish-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
 
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql-connector.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+
+
+
+    </dependencies>
 
     <build>
         <plugins>

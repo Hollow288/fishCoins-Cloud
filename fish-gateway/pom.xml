@@ -11,7 +11,7 @@
         <artifactId>fishCoins</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>fishGateway</artifactId>
+    <artifactId>fish-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fishGateway</name>
     <description>fishGateway</description>
