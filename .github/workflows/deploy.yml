@@ -1,0 +1,46 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - master  # 监听推送到 master 分支的变化
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        module:
+          - fishGateway
+          - fishAuthService
+          - fishBaseService
+          - fishEureka
+          - fishServiceApi
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build with Maven
+        run: |
+          cd ${{ matrix.module }}
+          mvn clean install -DskipTests
+          
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}  # GitHub Secrets 中配置的 Docker Hub 用户名
+          password: ${{ secrets.DOCKER_PASSWORD }}  # GitHub Secrets 中配置的 Docker Hub 密码
+
+      - name: Build Docker Image
+        run: |
+          cd ${{ matrix.module }}
+          docker build -t hollow288/${{ matrix.module }}:latest .
+          docker push hollow288/${{ matrix.module }}:latest

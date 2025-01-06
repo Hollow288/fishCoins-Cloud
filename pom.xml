@@ -20,15 +20,14 @@
     <modules>
         <module>fish-common</module>
 
-        <module>fishEureka-01</module>
-        <module>fishEureka-02</module>
+        <module>fishEureka</module>
 
         <module>fishGateway</module>
 
         <module>fishAuthService</module>
 
-        <module>fishServiceApi-01</module>
-        <module>fishServiceApi-02</module>
+        <module>fishServiceApi</module>
+
         <module>fishBaseService</module>
 
 
