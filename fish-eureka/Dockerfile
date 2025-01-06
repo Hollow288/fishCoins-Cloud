@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # 将构建好的 JAR 包复制到容器中
-COPY target/fishAuthService-0.0.1-SNAPSHOT.jar /app/fishAuthService-0.0.1-SNAPSHOT.jar
+COPY target/fish-eureka-0.0.1-SNAPSHOT.jar /app/fish-eureka-0.0.1-SNAPSHOT.jar
 
 # 启动 Spring Boot 应用（JAR 包）
-ENTRYPOINT ["java", "-jar", "/app/fishAuthService-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/fish-eureka-0.0.1-SNAPSHOT.jar"]
