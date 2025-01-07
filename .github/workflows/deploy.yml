@@ -24,12 +24,17 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'  # 指定 Java 发行版
+          distribution: 'temurin'
+
+      - name: Build and Install fishCoins (Parent Project)
+        run: |
+          cd fishCoins  # 进入父模块目录
+          mvn clean install -DskipTests  # 构建并安装父模块到本地仓库
 
       - name: Build and Install fish-common
         run: |
           cd fish-common
-          mvn clean install -DskipTests
+          mvn clean install -DskipTests  # 构建并安装 fish-common 模块
 
       - name: Build with Maven
         run: |
