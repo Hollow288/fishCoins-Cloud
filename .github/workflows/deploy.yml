@@ -26,11 +26,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'  # 指定 Java 发行版
 
-      - name: Build and Install fish-common
-        run: |
-          cd fish-common
-          mvn clean install -DskipTests
-
       - name: Build with Maven
         run: |
           cd ${{ matrix.module }}
