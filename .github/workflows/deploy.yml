@@ -27,8 +27,11 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Install fish-common module
-        run: mvn install -f path/to/fish-common/pom.xml  # 先安装 fish-common 模块
+      - name: Build and Install fish-common
+        run: |
+          cd fish-common
+          mvn clean install -DskipTests
+
 
       - name: Build with Maven
         run: |
