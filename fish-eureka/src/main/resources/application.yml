@@ -14,7 +14,7 @@ apollo:
     eagerLoad:
       enabled: true
     namespaces: fishEureka,application
-  configService:
+  configService: ${APOLLO_CONFIG_SERVICE:}
   access-key:
-    secret:
+    secret: ${APOLLO_SECRET_KEY:}
 
