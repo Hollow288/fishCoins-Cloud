@@ -15,8 +15,8 @@
 
     <artifactId>fish-eureka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>fishEureka</name>
-    <description>fishEureka</description>
+    <name>fish-eureka</name>
+    <description>fish-eureka</description>
     <properties>
         <java.version>17</java.version>
     </properties>
