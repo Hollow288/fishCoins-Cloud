@@ -27,11 +27,13 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Install fish-common module
+        run: mvn install -f path/to/fish-common/pom.xml  # 先安装 fish-common 模块
+
       - name: Build with Maven
         run: |
           cd ${{ matrix.module }}
-          mvn clean install -DskipTests
-          
+          mvn clean install -DskipTests  # 构建当前模块
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -42,5 +44,5 @@ jobs:
       - name: Build Docker Image
         run: |
           cd ${{ matrix.module }}
-          docker build -t hollow288/${{ matrix.module }}:latest .
-          docker push hollow288/${{ matrix.module }}:latest
+          docker build -t hollow288/${{ matrix.module }}:latest .  # 构建镜像
+          docker push hollow288/${{ matrix.module }}:latest  # 推送镜像
