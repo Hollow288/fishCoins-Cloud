@@ -27,6 +27,7 @@ docker pull hollow288/fish-service-api:latest
 docker pull hollow288/fish-gateway:latest
 docker pull hollow288/fish-eureka:latest
 docker pull redis
+docker push hollow288/fish-coins-vue-docker:latest
 
 
 #fish-coins-vue
