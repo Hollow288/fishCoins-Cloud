@@ -12,3 +12,62 @@ docker run \
 -v /opt/minio/config:/root/.minio \
 minio/minio server \
 /data --console-address ":9009" -address ":9000"
+
+
+#docker网络
+
+docker network create fish-network
+
+
+#docker镜像
+
+docker pull hollow288/fish-auth-service:latest
+docker pull hollow288/fish-base-service:latest
+docker pull hollow288/fish-service-api:latest
+docker pull hollow288/fish-gateway:latest
+docker pull hollow288/fish-eureka:latest
+docker pull redis
+
+
+#fish-coins-vue
+
+docker run -d -p 9990:80 -v /opt/fish-coins-vue-docker/nginx/conf.d:/etc/nginx/conf.d -v /opt/fish-coins-vue-docker/.env:/app/.env  --network fish-network --name fish-coins-vue hollow288/fish-coins-vue-docker:latest
+
+#fish-eureka
+
+docker run -d --name fish-eureka  --network fish-network -e APOLLO_CONFIG_SERVICE="http://xxxx:xxxx" \
+           -e APOLLO_SECRET_KEY="xxxxxx" \
+           -p 8900:8900 \
+           hollow288/fish-eureka:latest
+
+#fish-base-service
+
+docker run -d --name fish-base-service  --network fish-network -e APOLLO_CONFIG_SERVICE="http://xxxx:xxxx" \
+           -e APOLLO_SECRET_KEY="xxxxxx" \
+           -p 9101:9101 \
+           hollow288/fish-base-service:latest
+
+#fish-auth-service
+
+docker run -d --name fish-auth-service  --network fish-network -e APOLLO_CONFIG_SERVICE="http://xxxx:xxxx" \
+           -e APOLLO_SECRET_KEY="xxxxxx" \
+           -p 8700:8700 \
+           hollow288/fish-auth-service:latest
+
+#fish-service-api
+
+docker run -d --name fish-service-api  --network fish-network -e APOLLO_CONFIG_SERVICE="http://xxxx:xxxx" \
+           -e APOLLO_SECRET_KEY="xxxxxx" \
+           -p 9001:9001 \
+           hollow288/fish-service-api:latest
+
+#fish-gateway
+
+docker run -d --name fish-gateway  --network fish-network -e APOLLO_CONFIG_SERVICE="http://xxxx:xxxx" \
+           -e APOLLO_SECRET_KEY="xxxxxx" \
+           -p 8800:8800 \
+           hollow288/fish-gateway:latest
+
+#fish-redis
+
+docker run --name fish-redis --network fish-network -d -p 6379:6379 redis
