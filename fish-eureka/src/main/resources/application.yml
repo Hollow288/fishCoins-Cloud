@@ -6,7 +6,7 @@ server:
 spring:
   application:
     name:
-      spring-cloud-eureka-8900
+      fishEureka
 
 apollo:
   bootstrap:
