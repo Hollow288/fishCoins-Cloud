@@ -42,5 +42,12 @@ public class UploadController {
     }
 
 
+    @PostMapping(value = "/{food_id}/food-img")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String,Object> uploadFoodImg(@RequestPart("file") MultipartFile[] file, @PathVariable("food_id") String foodId) {
+        return uploadRemote.uploadFoodImg(file, foodId);
+    }
+
+
 
 }

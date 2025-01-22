@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pond.build.mapper.food.FoodMapper">
+
+
+    <select id="selectFoodIdName" resultType="com.pond.build.model.food.response.FoodIdName">
+        select food_id,food_name from food a  where a.del_flag='0' and a.food_name &lt;&gt; '' and a.food_name is not null;
+    </select>
+
+
+
+
+
+</mapper>

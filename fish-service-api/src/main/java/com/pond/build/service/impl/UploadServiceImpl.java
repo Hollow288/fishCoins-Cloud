@@ -6,12 +6,14 @@ import com.pond.build.enums.HttpStatusCode;
 import com.pond.build.mapper.AttachmentInformationMapper;
 import com.pond.build.mapper.EventConsultationMapper;
 import com.pond.build.mapper.arms.ArmsMapper;
+import com.pond.build.mapper.food.FoodMapper;
 import com.pond.build.mapper.willpower.WillpowerMapper;
 import com.pond.build.model.AttachmentInformation;
 import com.pond.build.model.CommonResult;
 import com.pond.build.model.EventConsultation;
 import com.pond.build.model.TokenUser;
 import com.pond.build.model.arms.Arms;
+import com.pond.build.model.food.Food;
 import com.pond.build.model.willpower.Willpower;
 import com.pond.build.service.UploadService;
 import com.pond.build.utils.MinioUtil;
@@ -46,6 +48,9 @@ public class UploadServiceImpl implements UploadService {
 
     @Autowired
     private EventConsultationMapper eventConsultationMapper;
+
+    @Autowired
+    private FoodMapper foodMapper;
 
     @Override
     public CommonResult<Map<String, Object>> uploadArmsImg(MultipartFile[] files, String armsId, TokenUser user) {
@@ -138,6 +143,38 @@ public class UploadServiceImpl implements UploadService {
             userUpdateWrapper.eq("consultation_id",consultationId);
             userUpdateWrapper.set("consultation_thumbnail_url",resultName);
             eventConsultationMapper.update(null,userUpdateWrapper);
+        }
+
+        return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功");
+    }
+
+
+
+    @Override
+    public CommonResult<Map<String, Object>> uploadFoodImg(MultipartFile[] files, String foodId, TokenUser user) {
+        String bucketName = "fishcoins-food-img";
+        String filePath = "/"+ LocalDate.now() + "/";
+
+        minioUtil.existBucket(bucketName);
+        //上传文件到Minio
+        List<String> uploadNames = minioUtil.upload(files, bucketName, filePath);
+
+        List<String> resultNames = uploadNames.stream().map(m -> address + "/" + bucketName + filePath + m).toList();
+
+
+        for (String resultName : resultNames) {
+            AttachmentInformation attachmentInformation = new AttachmentInformation();
+            attachmentInformation.setCreateBy(String.valueOf(user.getUserId()));
+            attachmentInformation.setOriTableId(foodId);
+            attachmentInformation.setOriTableName("food");
+            attachmentInformation.setAttachUrl(resultName);
+            attachmentInformationMapper.insert(attachmentInformation);
+
+
+            UpdateWrapper<Food> userUpdateWrapper = new UpdateWrapper<>();
+            userUpdateWrapper.eq("food_id",foodId);
+            userUpdateWrapper.set("food_thumbnail_url",resultName);
+            foodMapper.update(null,userUpdateWrapper);
         }
 
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功");

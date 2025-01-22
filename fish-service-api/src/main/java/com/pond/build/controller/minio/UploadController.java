@@ -42,5 +42,13 @@ public class UploadController {
     }
 
 
+    @PostMapping("/{food_id}/food-img")
+    @PreAuthorize("hasRole('ADMIN')")
+    @InjectUserDetails
+    public CommonResult<Map<String,Object>> uploadFoodImg(@RequestPart("file") MultipartFile[] file, @PathVariable("food_id") String foodId, TokenUser user) {
+        return uploadService.uploadFoodImg(file, foodId, user);
+    }
+
+
 
 }
