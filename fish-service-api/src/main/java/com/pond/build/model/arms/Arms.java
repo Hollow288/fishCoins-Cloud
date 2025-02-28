@@ -128,7 +128,11 @@ public class Arms  implements Serializable {
      */
     @TableField(exist = false)
     private List<ArmsCooperationAttacks> armsCooperationAttacks;
-
+    /**
+     * 武器通感
+     */
+    @TableField(exist = false)
+    private List<ArmsSynesthesia> armsSynesthesia;
 
     /**
      * 创建人

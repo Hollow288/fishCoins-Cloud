@@ -53,6 +53,9 @@ public class ArmsServiceImpl implements ArmsService {
     @Autowired
     private ArmsMimicryWillpowerMapper armsMimicryWillpowerMapper;
 
+    @Autowired
+    private ArmsSynesthesiaMapper armsSynesthesiaMapper;
+
     @Override
     public CommonResult<Arms> addArms(Arms arms, TokenUser user) {
         arms.setCreateBy(String.valueOf(user.getUserId()));
@@ -78,6 +81,9 @@ public class ArmsServiceImpl implements ArmsService {
         // 武器星级
         arms.getArmsStarRatings().forEach(armsStarRatings -> armsStarRatings.setArmsId(arms.getArmsId()));
         if (!CollectionUtils.isEmpty(arms.getArmsStarRatings()))armsStarRatingsMapper.insertBatchSomeColumn(arms.getArmsStarRatings());
+        // 武器通感
+        arms.getArmsSynesthesia().forEach(armsSynesthesia -> armsSynesthesia.setArmsId(arms.getArmsId()));
+        if (!CollectionUtils.isEmpty(arms.getArmsSynesthesia()))armsSynesthesiaMapper.insertBatchSomeColumn(arms.getArmsSynesthesia());
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功",arms);
     }
 
@@ -109,6 +115,9 @@ public class ArmsServiceImpl implements ArmsService {
         // 武器星级
         arms.getArmsStarRatings().forEach(armsStarRatings -> armsStarRatings.setArmsId(arms.getArmsId()));
         if (!CollectionUtils.isEmpty(arms.getArmsStarRatings()))armsStarRatingsMapper.insertBatchSomeColumn(arms.getArmsStarRatings());
+        // 武器通感
+        arms.getArmsSynesthesia().forEach(armsSynesthesia -> armsSynesthesia.setArmsId(arms.getArmsId()));
+        if (!CollectionUtils.isEmpty(arms.getArmsSynesthesia()))armsSynesthesiaMapper.insertBatchSomeColumn(arms.getArmsSynesthesia());
         return new CommonResult<>(HttpStatusCode.OK.getCode(),"操作成功",arms);
     }
 
